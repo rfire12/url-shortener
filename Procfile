@@ -1,1 +1,1 @@
-web: java -jar build/libs/url-shortener.jar
+web: sh build/install/url-shortener/bin/url-shortener

@@ -15,4 +15,8 @@ public class BootstrapService {
     public static void stopDb() throws SQLException {
         Server.shutdownTcpServer("tcp://localhost:9092", "", true, true);
     }
+
+    public static void initDb() {
+
+    }
 }

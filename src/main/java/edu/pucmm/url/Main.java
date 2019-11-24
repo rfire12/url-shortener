@@ -1,10 +1,18 @@
 package edu.pucmm.url;
 
+import edu.pucmm.url.Services.BootstrapService;
+
 import static spark.Spark.*;
 
 public class Main {
     public static void main(String[] args) {
+        // Setting up the port
         port(getHerokuPort());
+
+        staticFiles.location("/public");
+
+        // Initializing the database
+        BootstrapService.initDb();
     }
 
     static int getHerokuPort() {
