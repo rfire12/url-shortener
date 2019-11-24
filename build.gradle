@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '4.0.4'
 }
 
 group 'edu.pucmm'
@@ -28,4 +29,14 @@ dependencies {
     //Librerias de Hibernate
     compile 'org.hibernate:hibernate-core:5.4.1.Final'
     compile 'org.hibernate:hibernate-entitymanager:5.4.1.Final'
+}
+
+shadowJar {
+    baseName = 'sparkjava_demo'
+    classifier = null
+    version = null
+}
+
+task stage {
+    dependsOn shadowJar
 }
