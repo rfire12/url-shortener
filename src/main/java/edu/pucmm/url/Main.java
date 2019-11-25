@@ -1,5 +1,6 @@
 package edu.pucmm.url;
 
+import edu.pucmm.url.Controllers.UsersController;
 import edu.pucmm.url.Services.BootstrapService;
 
 import static spark.Spark.*;
@@ -13,6 +14,9 @@ public class Main {
 
         // Initializing the database
         BootstrapService.initDb();
+
+        // Get routes
+        UsersController.getRoutes();
     }
 
     static int getHerokuPort() {
