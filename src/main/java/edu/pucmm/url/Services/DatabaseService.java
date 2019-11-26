@@ -40,7 +40,7 @@ public class DatabaseService {
     public void testConnection() {
         try {
             getConnection().close();
-            System.out.println("Conexión realizada con éxito!!");
+            System.out.println("Success!!");
         } catch (SQLException ex) {
 
         }

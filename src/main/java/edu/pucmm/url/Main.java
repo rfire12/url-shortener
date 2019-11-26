@@ -3,6 +3,7 @@ package edu.pucmm.url;
 import edu.pucmm.url.Controllers.LoginController;
 import edu.pucmm.url.Controllers.UsersController;
 import edu.pucmm.url.Services.BootstrapService;
+import edu.pucmm.url.Services.DatabaseService;
 import edu.pucmm.url.Services.UsersServices;
 import edu.pucmm.url.Entities.User;
 import spark.Session;
@@ -21,6 +22,9 @@ public class Main {
         // Initializing the database
         BootstrapService.startDb();
         BootstrapService.initDb();
+
+        // Testing connection
+        DatabaseService.getInstance().testConnection();
 
         before((request, response) -> {
             User user = request.session().attribute("user");
