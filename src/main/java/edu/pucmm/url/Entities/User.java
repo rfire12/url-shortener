@@ -1,4 +1,4 @@
-package edu.pucmm.url.encapsulation;
+package edu.pucmm.url.Entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

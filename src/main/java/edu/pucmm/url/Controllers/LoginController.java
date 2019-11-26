@@ -1,7 +1,7 @@
 package edu.pucmm.url.Controllers;
 
 import edu.pucmm.url.Services.UsersServices;
-import edu.pucmm.url.encapsulation.User;
+import edu.pucmm.url.Entities.User;
 import spark.Session;
 
 import java.util.HashMap;

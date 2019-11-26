@@ -4,7 +4,7 @@ import edu.pucmm.url.Controllers.LoginController;
 import edu.pucmm.url.Controllers.UsersController;
 import edu.pucmm.url.Services.BootstrapService;
 import edu.pucmm.url.Services.UsersServices;
-import edu.pucmm.url.encapsulation.User;
+import edu.pucmm.url.Entities.User;
 import spark.Session;
 
 import java.sql.SQLException;
@@ -19,6 +19,7 @@ public class Main {
         staticFiles.location("/public");
 
         // Initializing the database
+        BootstrapService.startDb();
         BootstrapService.initDb();
 
         before((request, response) -> {

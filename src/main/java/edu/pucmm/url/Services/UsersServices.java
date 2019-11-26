@@ -1,6 +1,6 @@
 package edu.pucmm.url.Services;
 
-import edu.pucmm.url.encapsulation.User;
+import edu.pucmm.url.Entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
