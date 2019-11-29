@@ -4,9 +4,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SparkShort - Url Shortener</title>
+    <title>Shortify</title>
 
     <link href="/css/bootstrap.css" rel="stylesheet"/>
-    <script src="/js/bootstrap.js"></script>
-    <link href="/css/blog-home.css" rel="stylesheet"/>
+    <link href="/css/main.css" rel="stylesheet"/>
 </head>

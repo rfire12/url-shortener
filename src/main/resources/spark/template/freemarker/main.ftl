@@ -1,13 +1,32 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>URL Shortener</title>
-</head>
+<#include 'head.ftl'>
 <body>
-<h1>Hello World!!</h1>
+<#include 'navbar.ftl'>
+
+<div class="container">
+    <div class="jumbotron shadow" style="margin-top: 80px;">
+        <h2>Shortify your URL!</h2>
+        <br/>
+        <form>
+            <div class="form-row">
+                <div class="col-sm-11">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter your URL">
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <button type="submit" class="btn btn-primary btn-block">Go!</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <br/>
+    <div class="jumbotron shadow">
+        <h4>Latest URLs</h4>
+    </div>
+</div>
+
+<#include 'footer.ftl'>
 </body>
 </html>
