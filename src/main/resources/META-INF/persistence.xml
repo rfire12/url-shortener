@@ -6,6 +6,8 @@
     <persistence-unit name="MyDatabase" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>edu.pucmm.url.Entities.User</class>
+        <class>edu.pucmm.url.Entities.Url</class>
+        <class>edu.pucmm.url.Entities.Info</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/url-shortener"/>
             <property name="javax.persistence.jdbc.user" value="sa"/>

@@ -14,16 +14,16 @@ public class LoginController {
     public static void getRoutes() {
 
         before("/login", (request, response) -> {
-            User user = UsersServices.getInstance().findByObject(((User)request.session().attribute("user")));
+            User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             if (user != null) {
                 response.redirect("/");
             }
         });
 
         before("/create-user", (request, response) -> {
-            User user = UsersServices.getInstance().findByObject(((User)request.session().attribute("user")));
+            User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
 
-            if (user == null || !user.getRole().equalsIgnoreCase("admin")) {
+            if (user == null || !user.isAdmin()) {
                 response.redirect("/");
             }
 
@@ -64,8 +64,9 @@ public class LoginController {
         });
 
         post("/create-user", (request, response) -> {
-            User user = new User(UUID.randomUUID().toString(), request.queryParams("username"), request.queryParams("name"), request.queryParams("password"), request.queryParams("role"));
-            Boolean result = UsersServices.getInstance().create(user);
+//            User user = new User(UUID.randomUUID().toString(), request.queryParams("username"), request.queryParams("name"), request.queryParams("password"), request.queryParams("role"));
+//            Boolean result = UsersServices.getInstance().create(user);
+            boolean result = false;
             if (result) {
                 response.redirect("/");
             } else {

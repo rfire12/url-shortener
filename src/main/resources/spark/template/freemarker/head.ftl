@@ -4,7 +4,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>BlogSpark - The biggest Java Spark community in the world!</title>
+    <title>SparkShort - Url Shortener</title>
 
     <link href="/css/bootstrap.css" rel="stylesheet"/>
     <script src="/js/bootstrap.js"></script>

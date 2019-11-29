@@ -50,5 +50,11 @@ public class Main {
         return 4567;
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Shutting down...");
+        super.finalize();
+    }
+
 
 }
