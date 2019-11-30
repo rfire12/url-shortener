@@ -31,7 +31,7 @@
             </#if>
             <ul>
                 <#list latest as url>
-                    <li>${url.originalVersion} - ${url.shortVersion}</li>
+                    <li>${url.originalVersion} - <a href=" ${host}s/${url.shortVersion}">${host}s/${url.shortVersion}</a></li>
                 </#list>
             </ul>
         </div>

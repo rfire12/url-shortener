@@ -20,7 +20,14 @@ public class UrlsController {
             obj.put("latest", urls);
             obj.put("latestSize", urls.size());
             obj.put("user", user);
+            obj.put("host", request.url());
             return TemplatesController.renderFreemarker(obj, "main.ftl");
+        });
+
+        get("/s/:id", (request, response) -> {
+            Url url = UrlServices.getInstance().find(request.params("id"));
+            response.redirect(url.getOriginalVersion());
+            return "";
         });
 
         post("/shortify", (request, response) -> {
@@ -35,8 +42,7 @@ public class UrlsController {
             }else if(userCookie != null && user == null ){
                 annonymousUser = userCookie;
             }
-            System.out.println(annonymousUser);
-            System.out.println(user);
+
 
             Url url = new Url(shortUrl, request.queryParams("url"), "", "", "", user, annonymousUser);
             UrlServices.getInstance().create(url);
