@@ -62,7 +62,7 @@
 <script type="text/javascript">
     $(function () {
         new QRCode(document.getElementById("qrcode"), {
-            text: "${protocol}:${'//'}${host}/s/${url.shortVersion}}",
+            text: "${protocol}:${'//'}${host}/s/${url.shortVersion}",
             width: 128,
             height: 128,
         })
