@@ -1,8 +1,10 @@
 package edu.pucmm.url.Services;
 
+import edu.pucmm.url.Entities.User;
 import org.h2.tools.Server;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class BootstrapService {
     public static void startDb() throws SQLException {
@@ -17,6 +19,7 @@ public class BootstrapService {
     }
 
     public static void initDb() {
+        UsersServices.getInstance().create(new User(UUID.randomUUID().toString(), "admin","Admin","123456", true));
 
     }
 }

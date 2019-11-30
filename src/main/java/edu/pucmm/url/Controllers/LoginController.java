@@ -23,7 +23,7 @@ public class LoginController {
         before("/create-user", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
 
-            if (user == null || !user.isAdmin()) {
+            if (user != null && !user.isAdmin()) {
                 response.redirect("/");
             }
 
@@ -64,9 +64,11 @@ public class LoginController {
         });
 
         post("/create-user", (request, response) -> {
-//            User user = new User(UUID.randomUUID().toString(), request.queryParams("username"), request.queryParams("name"), request.queryParams("password"), request.queryParams("role"));
-//            Boolean result = UsersServices.getInstance().create(user);
-            boolean result = false;
+            User currentUser = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
+            Boolean isCurrentUserAdmin = currentUser != null ? currentUser.isAdmin() : false;
+            User user = new User(UUID.randomUUID().toString(), request.queryParams("username"), request.queryParams("name"), request.queryParams("password"), isCurrentUserAdmin);
+
+            Boolean result = UsersServices.getInstance().create(user);
             if (result) {
                 response.redirect("/");
             } else {

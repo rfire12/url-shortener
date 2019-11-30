@@ -22,13 +22,12 @@ public class User implements Serializable {
 
     }
 
-    public User(String uid, String username, String name, String password, boolean admin, Set<Url> myUrls) {
+    public User(String uid, String username, String name, String password, boolean admin) {
         this.uid = uid;
         this.username = username;
         this.name = name;
         this.password = password;
         this.admin = admin;
-        this.myUrls = myUrls;
     }
 
     public String getUid() {

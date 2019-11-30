@@ -1,5 +1,5 @@
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="/">Shortify</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -13,26 +13,31 @@
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <#if user??>
-                        <a class="nav-link" href="/new-article">Create Article</a>
-                    </#if>
-                </li>
-                <li class="nav-item">
-                    <#if user??>
-                        <#if user.role == "admin">
-                            <a class="nav-link" href="/create-user">Add new user</a>
-                        </#if>
-                    </#if>
-                </li>
-                <li class="nav-item">
-                    <#if user??>
-                        <a class="nav-link" href="/logout">Log out (${user.username})</a>
-                    <#else>
+
+                <#if user??>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            ${user.username}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <#if user.admin == true>
+                                <a class="dropdown-item" href="/create-user">Create admin</a>
+                            </#if>
+                            <a class="dropdown-item" href="/logout">Log out</a>
+                        </div>
+                    </li>
+                <#else>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/create-user">Join</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/login">Log In</a>
-                    </#if>
-                </li>
+                    </li>
+                </#if>
+
+
             </ul>
+
         </div>
     </div>
 </nav>
