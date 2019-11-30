@@ -17,6 +17,19 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Date</h2>
+                <div id="date-graph">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2>OS</h2>
+                <div id="os-graph">
+
+                </div>
+            </div>
+        </div>
         <br/>
         <div class="table-responsive">
             <table class="table table-striped">
@@ -78,18 +91,43 @@
         });
 
         google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawBrowserChart);
+        google.charts.setOnLoadCallback(drawDateChart);
         google.charts.setOnLoadCallback(drawOSChart);
 
-        function drawOSChart() {
+        function drawDateChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Date');
+            data.addColumn('number', 'Times');
+            var dict = {}
+            <#list access as a>
+            dict['${a.date}'] = 0;
+            </#list>
+            <#list access as a>
+            dict['${a.date}'] += 1;
+            </#list>
+            for (var key in dict) {
+                data.addRow([key, dict[key]]);
+            }
+            var chart = new google.visualization.ColumnChart(document.getElementById("date-graph"));
+            chart.draw(data, {
+                title: "Access by Date",
+                width: 450,
+                height: 300,
+            });
+        }
+
+        function drawBrowserChart() {
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Browser');
             data.addColumn('number', 'Percentage');
             var dict = {};
             <#list access as a>
             dict['${a.browser}'] = 0;
+            </#list>
+            <#list access as a>
             dict['${a.browser}'] += 1;
             </#list>
-            console.log(dict);
             for (var key in dict) {
                 data.addRow([key, dict[key]]);
             }
@@ -98,6 +136,28 @@
                 title: "Access by Browsers",
                 width: 450, height: 300,
             });
+        }
+
+        function drawOSChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'OS');
+            data.addColumn('number', 'Percentage');
+            var dict = {};
+            <#list access as a>
+            dict['${a.os}'] = 0;
+            </#list>
+            <#list access as a>
+            dict['${a.os}'] += 1;
+            </#list>
+            for (var key in dict) {
+                data.addRow([key, dict[key]]);
+            }
+
+            var chart = new google.visualization.PieChart(document.getElementById("os-graph"));
+            chart.draw(data, {
+                title: "Access by OS",
+                width: 450, height: 300,
+            })
         }
     });
 </script>
