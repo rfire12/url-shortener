@@ -16,12 +16,14 @@
 
                 <#if user??>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
                             ${user.username}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <#if user.admin == true>
                                 <a class="dropdown-item" href="/create-user">Create admin</a>
+                                <a class="dropdown-item" href="/delete-url">Delete URL</a>
                             </#if>
                             <a class="dropdown-item" href="/logout">Log out</a>
                         </div>

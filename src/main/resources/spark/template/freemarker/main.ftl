@@ -3,9 +3,8 @@
 <#include 'head.ftl'>
 <body>
 <#include 'navbar.ftl'>
-
 <div class="container">
-    <div class="jumbotron shadow" style="margin-top: 80px;">
+    <div class="jumbotron shadow my-5">
         <h2>Shortify your URL!</h2>
         <br/>
         <form action="/shortify" method="post">
@@ -31,13 +30,13 @@
             </#if>
             <ul>
                 <#list latest as url>
-                    <li>${url.originalVersion} - <a href=" ${host}s/${url.shortVersion}">${host}s/${url.shortVersion}</a></li>
+                    <li>${url.originalVersion} - <a href=" ${host}s/${url.shortVersion}">${host}
+                            s/${url.shortVersion}</a></li>
                 </#list>
             </ul>
         </div>
     </#if>
 </div>
-
 <#include 'footer.ftl'>
 </body>
 </html>
