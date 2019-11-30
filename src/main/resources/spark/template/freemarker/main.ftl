@@ -32,7 +32,10 @@
                 <#list latest as url>
                     <li>
                         ${url.originalVersion} - <a href=" ${host}s/${url.shortVersion}" target="_blank">${host}s/${url.shortVersion}</a>
-                        - <a href="/info/${url.shortVersion}">See info</a>
+                        -
+                        <#if user??>
+                            <a href="/info/${url.shortVersion}">See info</a>
+                        </#if>
                     </li>
                 </#list>
             </ul>

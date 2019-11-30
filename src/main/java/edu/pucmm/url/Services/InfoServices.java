@@ -19,15 +19,12 @@ public class InfoServices extends DatabaseManagement<Info> {
         return instance;
     }
 
-    public Info findByShortVersion(String url) {
-        Info info = null;
+    public List<Info> getInfoListByUrl(String shortVersion){
         EntityManager em = getEntityManager();
-        Query query = em.createQuery("select i from Info i where i.shortVersion = :url");
-        query.setParameter("url", url);
+        Query query = em.createQuery("select i from Info i where i.url.shortVersion = :url");
+        query.setParameter("url", shortVersion);
         List<Info> list = query.getResultList();
-        if (list.size() > 0)
-            info = list.get(0);
-        return info;
+        return list;
     }
 
     public int getCountByBrowser(String url, String browser) {

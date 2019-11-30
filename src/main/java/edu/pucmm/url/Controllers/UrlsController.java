@@ -1,13 +1,22 @@
 package edu.pucmm.url.Controllers;
 
+import com.maxmind.geoip2.model.CountryResponse;
+import edu.pucmm.url.Entities.Info;
 import edu.pucmm.url.Entities.Url;
 import edu.pucmm.url.Entities.User;
+import edu.pucmm.url.Services.InfoServices;
 import edu.pucmm.url.Services.UrlServices;
 import edu.pucmm.url.Services.UsersServices;
+import eu.bitwalker.useragentutils.UserAgent;
 
-import java.util.*;
+import java.net.InetAddress;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import static spark.Spark.*;
+
 
 public class UrlsController {
     public static void getRoutes() {
@@ -24,12 +33,26 @@ public class UrlsController {
             return TemplatesController.renderFreemarker(obj, "main.ftl");
         });
 
-        get("/info/:id", (request, response) -> {
-            User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
-            Url url = UrlServices.getInstance().find(request.params("id"));
-            Map<String, Object> obj = new HashMap<>();
+        before("/info/:id", (request, response) -> {
+            User user = UsersServices.getInstance().findByObject(((User)request.session().attribute("user")));
+            if(user == null){
+                response.redirect("/");
+            }
+        });
 
+        get("/info/:id", (request, response) -> {
+            User user = UsersServices.getInstance().findByObject(((User)request.session().attribute("user")));
+            Url url = UrlServices.getInstance().findByShortVersion(request.params("id"));
+            List<Info> infoByUrl = InfoServices.getInstance().getInfoListByUrl(request.params("id"));
+
+            Map<String, Object> obj = new HashMap<>();
+            obj.put("url", url);
+            obj.put("date", url.getCreatedAt().toString().substring(0,10));
+            obj.put("protocol", request.scheme());
+            obj.put("host", request.host());
             obj.put("user", user);
+            obj.put("access", infoByUrl);
+            obj.put("accessCount", infoByUrl.size());
             return TemplatesController.renderFreemarker(obj, "url-info.ftl");
         });
 
@@ -37,6 +60,11 @@ public class UrlsController {
             Url url = UrlServices.getInstance().find(request.params("id"));
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
 
+            UserAgent userAgent = UserAgent.parseUserAgentString(request.headers("User-Agent"));
+            java.util.Date date = new java.util.Date();
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            Info info = new Info(UUID.randomUUID().toString(), sqlDate, url, userAgent.getBrowser().toString(), userAgent.getOperatingSystem().toString(), "Dominican Republic", request.ip());
+            InfoServices.getInstance().create(info);
             response.redirect(url.getOriginalVersion());
             return "";
         });
@@ -44,6 +72,8 @@ public class UrlsController {
         post("/shortify", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             String shortUrl = UUID.randomUUID().toString().split("-")[0];
+
+
             String annonymousUser = "";
             String newCookie = UUID.randomUUID().toString();
             String userCookie = request.cookie("ANONYMOUSUSER");

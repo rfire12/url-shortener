@@ -5,6 +5,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 public class Url implements Serializable {
@@ -28,6 +30,7 @@ public class Url implements Serializable {
         this.originalVersion = originalVersion;
         this.qrVersion = qrVersion;
         this.user = user;
+        this.createdAt = LocalDateTime.now();
         this.anonymousUser = anonymousUser;
     }
 
