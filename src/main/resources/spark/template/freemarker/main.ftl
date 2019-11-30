@@ -30,8 +30,10 @@
             </#if>
             <ul>
                 <#list latest as url>
-                    <li>${url.originalVersion} - <a href=" ${host}s/${url.shortVersion}">${host}
-                            s/${url.shortVersion}</a></li>
+                    <li>
+                        ${url.originalVersion} - <a href=" ${host}s/${url.shortVersion}" target="_blank">${host}s/${url.shortVersion}</a>
+                        - <a href="/info/${url.shortVersion}">See info</a>
+                    </li>
                 </#list>
             </ul>
         </div>

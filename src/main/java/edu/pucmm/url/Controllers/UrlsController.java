@@ -24,8 +24,19 @@ public class UrlsController {
             return TemplatesController.renderFreemarker(obj, "main.ftl");
         });
 
+        get("/info/:id", (request, response) -> {
+            User user = UsersServices.getInstance().findByObject(((User)request.session().attribute("user")));
+            Url url = UrlServices.getInstance().find(request.params("id"));
+            Map<String, Object> obj = new HashMap<>();
+
+            obj.put("user", user);
+            return TemplatesController.renderFreemarker(obj, "url-info.ftl");
+        });
+
         get("/s/:id", (request, response) -> {
             Url url = UrlServices.getInstance().find(request.params("id"));
+            User user = UsersServices.getInstance().findByObject(((User)request.session().attribute("user")));
+
             response.redirect(url.getOriginalVersion());
             return "";
         });
@@ -44,7 +55,7 @@ public class UrlsController {
             }
 
 
-            Url url = new Url(shortUrl, request.queryParams("url"), "", "", "", user, annonymousUser);
+            Url url = new Url(shortUrl, request.queryParams("url"), "", user, annonymousUser);
             UrlServices.getInstance().create(url);
 
             if (user != null) {
