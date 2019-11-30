@@ -16,11 +16,10 @@ public class Url implements Serializable {
     private String shortVersion;
     private String originalVersion;
     private String qrVersion;
-    private String latitude;
-    private String longitude;
     @CreationTimestamp
     private LocalDateTime createdAt;
     private String anonymousUser;
+
 
     @ManyToOne
     private User user;
@@ -33,12 +32,10 @@ public class Url implements Serializable {
 
     }
 
-    public Url(String shortVersion, String originalVersion, String qrVersion, String latitude, String longitude, User user, String anonymousUser) {
+    public Url(String shortVersion, String originalVersion, String qrVersion, User user, String anonymousUser) {
         this.shortVersion = shortVersion;
         this.originalVersion = originalVersion;
         this.qrVersion = qrVersion;
-        this.latitude = latitude;
-        this.longitude = longitude;
         this.user = user;
         this.anonymousUser = anonymousUser;
     }
@@ -73,22 +70,6 @@ public class Url implements Serializable {
 
     public void setQrVersion(String qrVersion) {
         this.qrVersion = qrVersion;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
     }
 
     public User getUser() {
