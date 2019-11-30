@@ -61,7 +61,6 @@
                     <th scope="col">Date</th>
                     <th scope="col">Browser</th>
                     <th scope="col">OS</th>
-                    <th scope="col">Country</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -71,7 +70,6 @@
                         <td>${a.date}</td>
                         <td>${a.browser}</td>
                         <td>${a.os}</td>
-                        <td>${a.country}</td>
                     </tr>
                 </#list>
                 </tbody>
