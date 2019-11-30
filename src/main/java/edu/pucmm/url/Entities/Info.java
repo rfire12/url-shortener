@@ -1,10 +1,12 @@
 package edu.pucmm.url.Entities;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.sql.Date;
 
+@Entity
 public class Info implements Serializable {
     @Id
     private String uid;
@@ -16,6 +18,7 @@ public class Info implements Serializable {
     private String browser;
     private String os;
     private String country;
+    private String ip;
 
     public Info() {
 
@@ -76,5 +79,13 @@ public class Info implements Serializable {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 }

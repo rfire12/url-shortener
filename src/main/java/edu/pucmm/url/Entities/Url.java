@@ -1,10 +1,15 @@
 package edu.pucmm.url.Entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
+@Entity
 public class Url implements Serializable {
     @Id
     @Column(unique = true)
@@ -13,6 +18,8 @@ public class Url implements Serializable {
     private String qrVersion;
     private String latitude;
     private String longitude;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     @ManyToOne
     private User user;
@@ -21,7 +28,7 @@ public class Url implements Serializable {
 
     }
 
-    public Url(String shortVersion, String originalVersion, String previewVersion, String qrVersion, String latitude, String longitude, User user) {
+    public Url(String shortVersion, String originalVersion, String qrVersion, String latitude, String longitude, User user) {
         this.shortVersion = shortVersion;
         this.originalVersion = originalVersion;
         this.qrVersion = qrVersion;
@@ -76,5 +83,13 @@ public class Url implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
