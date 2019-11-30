@@ -24,13 +24,14 @@ public class Info implements Serializable {
 
     }
 
-    public Info(String uid, Date date, Url url, String browser, String os, String country) {
+    public Info(String uid, Date date, Url url, String browser, String os, String country, String ip) {
         this.uid = uid;
         this.date = date;
         this.url = url;
         this.browser = browser;
         this.os = os;
         this.country = country;
+        this.ip = ip;
     }
 
     public String getUid() {

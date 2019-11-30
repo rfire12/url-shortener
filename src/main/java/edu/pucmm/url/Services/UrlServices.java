@@ -20,6 +20,17 @@ public class UrlServices extends DatabaseManagement<Url> {
         return instance;
     }
 
+    public Url findByShortVersion(String myUrl) {
+        Url url = null;
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("select u from Url u where u.shortVersion = :url");
+        query.setParameter("url", myUrl);
+        List<Url> list = query.getResultList();
+        if (list.size() > 0)
+            url = list.get(0);
+        return url;
+    }
+
     public List<Url> getMyAnnonymousUrl(String cookie) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("select u from Url u where u.anonymousUser =: cookie  order by u.createdAt");
