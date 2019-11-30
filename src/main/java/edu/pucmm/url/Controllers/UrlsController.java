@@ -14,7 +14,7 @@ public class UrlsController {
         get("/", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             String annonymousUser = request.cookie("ANONYMOUSUSER");
-            List<Url> urls = user != null ? user.getMyUrls() : UrlServices.getInstance().getMyAnnonymousUrl(annonymousUser);
+            List<Url> urls = user != null ? (List<Url>) user.getMyUrls() : UrlServices.getInstance().getMyAnnonymousUrl(annonymousUser);
 
             Map<String, Object> obj = new HashMap<>();
             obj.put("latest", urls);

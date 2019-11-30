@@ -12,12 +12,13 @@ import java.util.Set;
 public class User implements Serializable {
     @Id
     private String uid;
+    @Column(unique = true)
     private String username;
     private String name;
     private String password;
     private boolean admin;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Url> myUrls;
 

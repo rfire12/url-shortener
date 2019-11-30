@@ -19,7 +19,8 @@ public class BootstrapService {
     }
 
     public static void initDb() {
-        UsersServices.getInstance().create(new User(UUID.randomUUID().toString(), "admin","Admin","123456", true));
-
+        if (UsersServices.getInstance().findByUsername("admin") == null) {
+            UsersServices.getInstance().create(new User(UUID.randomUUID().toString(), "admin", "Admin", "123456", true));
+        }
     }
 }

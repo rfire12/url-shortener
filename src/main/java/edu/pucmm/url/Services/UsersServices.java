@@ -45,4 +45,12 @@ public class UsersServices extends DatabaseManagement<User> {
         } else
             return null;
     }
+
+    public User findByUsername(String username) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("select u from User u where u.username = :username");
+        query.setParameter("username", username);
+        User user = (User) query.getResultList().get(0);
+        return user;
+    }
 }

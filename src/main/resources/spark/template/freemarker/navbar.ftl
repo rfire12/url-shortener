@@ -24,6 +24,7 @@
                             <#if user.admin == true>
                                 <a class="dropdown-item" href="/create-user">Create admin</a>
                                 <a class="dropdown-item" href="/delete-url">Delete URL</a>
+                                <a class="dropdown-item" href="/users">Users</a>
                             </#if>
                             <a class="dropdown-item" href="/logout">Log out</a>
                         </div>
