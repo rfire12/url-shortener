@@ -5,8 +5,17 @@
 <#include 'navbar.ftl'>
 <div class="container">
     <div class="jumbotron shadow my-5">
-        <h2>QR Code</h2>
-        <div id="qrcode">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>QR Code</h2>
+                <div id="qrcode">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2>Access Graph</h2>
+                <div id="access-graph">
+                </div>
+            </div>
         </div>
         <br/>
         <div class="table-responsive">
@@ -59,13 +68,28 @@
 </div>
 <#include 'footer.ftl'>
 <script src="/js/qrcode.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     $(function () {
         new QRCode(document.getElementById("qrcode"), {
             text: "${protocol}:${'//'}${host}/s/${url.shortVersion}",
             width: 128,
             height: 128,
-        })
+        });
+
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Date');
+            data.addColumn('number', 'Times');
+            <#list access as a>
+            data.addRow(['${a.date}', 1]);
+            </#list>
+            var chart = new google.visualization.ColumnChart(document.getElementById("access-graph"));
+            chart.draw(data, null);
+        }
     });
 </script>
 </body>
