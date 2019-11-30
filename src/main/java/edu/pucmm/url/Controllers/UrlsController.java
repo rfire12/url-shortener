@@ -78,11 +78,18 @@ public class UrlsController {
         });
 
         post("/delete-url", (request, response) -> {
-            UrlServices.getInstance().delete(request.queryParams("url"));
             Map<String, Object> obj = new HashMap<>();
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             obj.put("user", user);
-            obj.put("alert", "URL deleted!");
+            if (UrlServices.getInstance().find(request.queryParams("url")) != null) {
+                UrlServices.getInstance().delete(request.queryParams("url"));
+                obj.put("type", "success");
+                obj.put("alert", "URL deleted!");
+            } else {
+                obj.put("type", "danger");
+                obj.put("alert", "URL not found");
+            }
+
             return TemplatesController.renderFreemarker(obj, "delete-url.ftl");
         });
     }

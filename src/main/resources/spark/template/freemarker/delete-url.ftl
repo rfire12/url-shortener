@@ -5,7 +5,7 @@
 <#include 'navbar.ftl'>
 <div class="container">
     <#if alert??>
-        <div class="alert alert-success alert-dismissible fade show my-5 shadow" role="alert">
+        <div class="alert alert-${type} alert-dismissible fade show my-5 shadow" role="alert">
             ${alert}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
