@@ -50,7 +50,11 @@ public class UsersServices extends DatabaseManagement<User> {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("select u from User u where u.username = :username");
         query.setParameter("username", username);
-        User user = (User) query.getResultList().get(0);
+        User user = null;
+        List<User> list = query.getResultList();
+        if (list.size() > 0) {
+            user = list.get(0);
+        }
         return user;
     }
 }
