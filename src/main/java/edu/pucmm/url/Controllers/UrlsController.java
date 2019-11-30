@@ -35,7 +35,8 @@ public class UrlsController {
 
         before("/info/:id", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User)request.session().attribute("user")));
-            if(user == null){
+            Boolean isAUserUrl = user != null ? UrlServices.getInstance().isAUserUrl(request.params("id"), user.getUid()) : null;
+            if(user == null || isAUserUrl == false){
                 response.redirect("/");
             }
         });

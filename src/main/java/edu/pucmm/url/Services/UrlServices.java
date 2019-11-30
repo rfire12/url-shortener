@@ -1,6 +1,7 @@
 package edu.pucmm.url.Services;
 
 import edu.pucmm.url.Entities.Url;
+import edu.pucmm.url.Entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -31,6 +32,18 @@ public class UrlServices extends DatabaseManagement<Url> {
         return url;
     }
 
+
+    public Boolean isAUserUrl(String url, String userId) {
+        Boolean result = false;
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("select u from Url u where u.user.id =: userId and u.shortVersion =: url");
+        query.setParameter("url", url);
+        query.setParameter("userId", userId);
+        List<Url> list = query.getResultList();
+        if (list.size() > 0)
+            result = true;
+        return result;
+    }
 
 
     public List<Url> getMyAnnonymousUrl(String cookie) {
