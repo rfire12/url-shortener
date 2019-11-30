@@ -1,12 +1,12 @@
 package edu.pucmm.url.Controllers;
 
+import edu.pucmm.url.Entities.Url;
+import edu.pucmm.url.Services.UrlServices;
 import edu.pucmm.url.Services.UsersServices;
 import edu.pucmm.url.Entities.User;
 import spark.Session;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static spark.Spark.*;
 
@@ -69,7 +69,23 @@ public class LoginController {
             User user = new User(UUID.randomUUID().toString(), request.queryParams("username"), request.queryParams("name"), request.queryParams("password"), isCurrentUserAdmin);
 
             Boolean result = UsersServices.getInstance().create(user);
+
+            String annonymousUser = request.cookie("ANONYMOUSUSER");
+            List<Url> myUrls = UrlServices.getInstance().getMyAnnonymousUrl(annonymousUser);
+            List<Url> urls = new ArrayList<>();
+            for(Url url: myUrls){
+                url.setUser(user);
+                url.setAnonymousUser("");
+                urls.add(url);
+                UrlServices.getInstance().update(url);
+            }
+            user.setMyUrls(urls);
+
+
             if (result) {
+                Session session = request.session(true);
+                session.attribute("user", user);
+                response.removeCookie("ANONYMOUSUSER");
                 response.redirect("/");
             } else {
                 response.redirect("/create-user");
