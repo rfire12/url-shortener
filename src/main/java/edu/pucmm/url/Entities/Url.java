@@ -20,21 +20,35 @@ public class Url implements Serializable {
     private String longitude;
     @CreationTimestamp
     private LocalDateTime createdAt;
+    private String anonymousUser;
 
     @ManyToOne
     private User user;
+
+
+
+
 
     public Url() {
 
     }
 
-    public Url(String shortVersion, String originalVersion, String qrVersion, String latitude, String longitude, User user) {
+    public Url(String shortVersion, String originalVersion, String qrVersion, String latitude, String longitude, User user, String anonymousUser) {
         this.shortVersion = shortVersion;
         this.originalVersion = originalVersion;
         this.qrVersion = qrVersion;
         this.latitude = latitude;
         this.longitude = longitude;
         this.user = user;
+        this.anonymousUser = anonymousUser;
+    }
+
+    public String getAnonymousUser() {
+        return anonymousUser;
+    }
+
+    public void setAnonymousUser(String anonymousUser) {
+        this.anonymousUser = anonymousUser;
     }
 
     public String getShortVersion() {

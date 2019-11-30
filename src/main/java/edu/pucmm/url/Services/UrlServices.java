@@ -20,9 +20,10 @@ public class UrlServices extends DatabaseManagement<Url> {
         return instance;
     }
 
-    public List<Url> getLatest() {
+    public List<Url> getMyAnnonymousUrl(String cookie) {
         EntityManager em = getEntityManager();
-        Query query = em.createQuery("select u from Url u order by u.createdAt");
+        Query query = em.createQuery("select u from Url u where u.anonymousUser =: cookie  order by u.createdAt");
+        query.setParameter("cookie", cookie);
         query.setMaxResults(5);
         return query.getResultList();
     }

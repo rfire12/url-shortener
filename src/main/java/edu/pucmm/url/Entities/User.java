@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,7 +17,7 @@ public class User implements Serializable {
     private boolean admin;
 
     @OneToMany
-    private Set<Url> myUrls;
+    private List<Url> myUrls;
 
     public User() {
 
@@ -70,11 +71,11 @@ public class User implements Serializable {
         this.admin = admin;
     }
 
-    public Set<Url> getMyUrls() {
+    public List<Url> getMyUrls() {
         return myUrls;
     }
 
-    public void setMyUrls(Set<Url> myUrls) {
+    public void setMyUrls(List<Url> myUrls) {
         this.myUrls = myUrls;
     }
 }

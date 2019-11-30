@@ -24,7 +24,11 @@
     <br/>
     <#if latestSize gt 0>
         <div class="jumbotron shadow">
-            <h4>Latest URLs</h4>
+            <#if user??>
+                <h4>My shortened urls</h4>
+            <#else>
+                <h4>Shortened urls on this browser</h4>
+            </#if>
             <ul>
                 <#list latest as url>
                     <li>${url.originalVersion} - ${url.shortVersion}</li>
