@@ -1,8 +1,9 @@
 package edu.pucmm.url.Entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,8 @@ public class User implements Serializable {
     private String password;
     private boolean admin;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Url> myUrls;
 
     public User() {

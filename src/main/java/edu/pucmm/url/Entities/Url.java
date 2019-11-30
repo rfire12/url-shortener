@@ -1,11 +1,10 @@
 package edu.pucmm.url.Entities;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -19,14 +18,8 @@ public class Url implements Serializable {
     @CreationTimestamp
     private LocalDateTime createdAt;
     private String anonymousUser;
-
-
     @ManyToOne
     private User user;
-
-
-
-
 
     public Url() {
 
