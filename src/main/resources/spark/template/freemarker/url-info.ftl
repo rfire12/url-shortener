@@ -12,8 +12,8 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <h2>Access Graph</h2>
-                <div id="access-graph">
+                <h2>Browsers</h2>
+                <div id="browsers-graph">
                 </div>
             </div>
         </div>
@@ -78,17 +78,26 @@
         });
 
         google.charts.load('current', {packages: ['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawOSChart);
 
-        function drawChart() {
+        function drawOSChart() {
             var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Date');
-            data.addColumn('number', 'Times');
+            data.addColumn('string', 'Browser');
+            data.addColumn('number', 'Percentage');
+            var dict = {};
             <#list access as a>
-            data.addRow(['${a.date}', 1]);
+            dict['${a.browser}'] = 0;
+            dict['${a.browser}'] += 1;
             </#list>
-            var chart = new google.visualization.ColumnChart(document.getElementById("access-graph"));
-            chart.draw(data, null);
+            console.log(dict);
+            for (var key in dict) {
+                data.addRow([key, dict[key]]);
+            }
+            var chart = new google.visualization.PieChart(document.getElementById("browsers-graph"));
+            chart.draw(data, {
+                title: "Access by Browsers",
+                width: 450, height: 300,
+            });
         }
     });
 </script>
