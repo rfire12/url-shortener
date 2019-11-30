@@ -81,8 +81,9 @@ public class UrlsController {
             Map<String, Object> obj = new HashMap<>();
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             obj.put("user", user);
-            if (UrlServices.getInstance().find(request.queryParams("url")) != null) {
-                UrlServices.getInstance().delete(request.queryParams("url"));
+            String url = request.queryParams("url").split("/")[4];
+            if (UrlServices.getInstance().find(url) != null) {
+                UrlServices.getInstance().delete(url);
                 obj.put("type", "success");
                 obj.put("alert", "URL deleted!");
             } else {
