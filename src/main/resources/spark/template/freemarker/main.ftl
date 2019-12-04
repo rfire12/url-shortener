@@ -28,42 +28,60 @@
             <#else>
                 <h4>Shortened urls on this browser</h4>
             </#if>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Original</th>
-                    <th>Shortified</th>
-                    <th colspan="2"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <#list latest as url>
+            <div class="table table-responsive">
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <td>
-                            ${url.originalVersion}
-                        </td>
-                        <td>
-                            <a href="${host}s/${url.shortVersion}" target="_blank">${host}s/${url.shortVersion}</a>
-                        </td>
-                        <td>
-                            <#if user??>
-                                <a href="/info/${url.shortVersion}" class="btn btn-info">Info</a>
-                            </#if>
-                        </td>
-                        <td>
-                            <#if user??>
-                                <form action="/s/${url.shortVersion}/delete" method="post">
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
-                            </#if>
-                        </td>
+                        <th>Preview</th>
+                        <th>Original</th>
+                        <th>Shortified</th>
+                        <th colspan="2"></th>
                     </tr>
-                </#list>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    <#list latest as url>
+                        <tr id="url-${url.shortVersion}">
+                            <td>
+
+                            </td>
+                            <td>
+                                ${url.originalVersion}
+                            </td>
+                            <td class="urlShort ${url.shortVersion}">
+                                <a href="${host}s/${url.shortVersion}" target="_blank">${host}s/${url.shortVersion}</a>
+                            </td>
+                            <td>
+                                <#if user??>
+                                    <a href="/info/${url.shortVersion}" class="btn btn-info">Info</a>
+                                </#if>
+                            </td>
+                            <td>
+                                <#if user??>
+                                    <form action="/s/${url.shortVersion}/delete" method="post">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </#if>
+                            </td>
+                        </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </#if>
 </div>
 <#include 'footer.ftl'>
+<script type="application/javascript">
+    $(function () {
+        $('[id^="url-"]').each(function () {
+            var myUrl = $(this).find(".urlShort").attr('class').split(' ')[1];
+            $.ajax({
+                url: "http://api.linkpreview.net/?key=5de82b007f6d0ee5d57044e005d0f8104161e20b42286&q=${host}s/" + myUrl,
+            }).done(function () {
+                $("#url-" + myUrl).text("DONE");
+            });
+        });
+    });
+</script>
 </body>
 </html>
