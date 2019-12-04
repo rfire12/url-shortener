@@ -41,7 +41,7 @@
                     <tbody>
                     <#list latest as url>
                         <tr id="url-${url.shortVersion}">
-                            <td>
+                            <td class="preview">
 
                             </td>
                             <td>
@@ -78,7 +78,7 @@
             $.ajax({
                 url: "https://api.linkpreview.net/?key=5de82b007f6d0ee5d57044e005d0f8104161e20b42286&q=${host}s/" + myUrl,
             }).done(function () {
-                $("#url-" + myUrl).text("DONE");
+                $("#url-" + myUrl).find(".preview").text("DONE");
             });
         });
     });
