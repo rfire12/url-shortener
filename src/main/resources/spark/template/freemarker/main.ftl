@@ -28,17 +28,39 @@
             <#else>
                 <h4>Shortened urls on this browser</h4>
             </#if>
-            <ul>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Original</th>
+                    <th>Shortified</th>
+                    <th colspan="2"></th>
+                </tr>
+                </thead>
+                <tbody>
                 <#list latest as url>
-                    <li>
-                        ${url.originalVersion} - <a href=" ${host}s/${url.shortVersion}" target="_blank">${host}s/${url.shortVersion}</a>
-                        -
-                        <#if user??>
-                            <a href="/info/${url.shortVersion}">See info</a>
-                        </#if>
-                    </li>
+                    <tr>
+                        <td>
+                            ${url.originalVersion}
+                        </td>
+                        <td>
+                            <a href="${host}s/${url.shortVersion}" target="_blank">${host}s/${url.shortVersion}</a>
+                        </td>
+                        <td>
+                            <#if user??>
+                                <a href="/info/${url.shortVersion}" class="btn btn-info">Info</a>
+                            </#if>
+                        </td>
+                        <td>
+                            <#if user??>
+                                <form action="/s/${url.shortVersion}/delete" method="post">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </#if>
+                        </td>
+                    </tr>
                 </#list>
-            </ul>
+                </tbody>
+            </table>
         </div>
     </#if>
 </div>

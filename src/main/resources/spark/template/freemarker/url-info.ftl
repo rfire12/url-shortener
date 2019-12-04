@@ -44,8 +44,7 @@
                 <tbody>
                 <tr>
                     <th scope="row"><a href="${protocol}:${'//'}${host}/s/${url.shortVersion}"
-                                       target="_blank">${protocol}
-                            ://${host}/s/${url.shortVersion}</a></th>
+                                       target="_blank">${protocol}://${host}/s/${url.shortVersion}</a></th>
                     <td>${url.originalVersion}</td>
                     <td>${date}</td>
                     <td>${accessCount}</td>

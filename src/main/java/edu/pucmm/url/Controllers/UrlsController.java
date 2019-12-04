@@ -103,20 +103,10 @@ public class UrlsController {
 
         post("/s/:id/delete", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
-            User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
+            User user = UsersServices.getInstance().findByObject(request.session().attribute("user"));
             obj.put("user", user);
-            String url = request.params("id");
-
-            UrlServices.getInstance().delete(url);
-
-//            if (UrlServices.getInstance().find(url) != null) {
-//                UrlServices.getInstance().delete(url);
-//                obj.put("type", "success");
-//                obj.put("alert", "URL deleted!");
-//            } else {
-//                obj.put("type", "danger");
-//                obj.put("alert", "URL not found");
-//            }
+            String strUrl = request.params("id");
+            UrlServices.getInstance().delete(strUrl);
 
             if (user.isAdmin())
                 response.redirect("/urls");
@@ -128,6 +118,9 @@ public class UrlsController {
         get("/urls", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
             obj.put("urls", UrlServices.getInstance().findAll());
+
+            User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
+            obj.put("user", user);
 
             return TemplatesController.renderFreemarker(obj, "urls.ftl");
         });

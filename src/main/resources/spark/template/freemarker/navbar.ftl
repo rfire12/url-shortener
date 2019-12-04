@@ -23,7 +23,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <#if user.admin == true>
                                 <a class="dropdown-item" href="/create-user">Create admin</a>
-                                <a class="dropdown-item" href="/delete-url">Delete URL</a>
+                                <a class="dropdown-item" href="/urls">URLs</a>
                                 <a class="dropdown-item" href="/users">Users</a>
                             </#if>
                             <a class="dropdown-item" href="/logout">Log out</a>

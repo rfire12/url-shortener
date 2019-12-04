@@ -18,8 +18,7 @@ public class User implements Serializable {
     private String password;
     private boolean admin;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Url> myUrls;
 
     public User() {
