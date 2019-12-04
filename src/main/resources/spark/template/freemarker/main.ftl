@@ -42,7 +42,14 @@
                     <#list latest as url>
                         <tr id="url-${url.shortVersion}">
                             <td class="preview">
-
+                                <div class="card">
+                                    <img src="" class="card-img-top">
+                                    <div class="card-body">
+                                        <h5 class="card-title"></h5>
+                                        <p class="card-text"></p>
+                                        <a href="" class="btn btn-primary">Loading...</a>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 ${url.originalVersion}
@@ -77,8 +84,13 @@
             var myUrl = $(this).find(".urlShort").attr('class').split(' ')[1];
             $.ajax({
                 url: "https://api.linkpreview.net/?key=5de82b007f6d0ee5d57044e005d0f8104161e20b42286&q=${host}s/" + myUrl,
-            }).done(function () {
-                $("#url-" + myUrl).find(".preview").text("DONE");
+            }).done(function (data) {
+                var myElem = $("#url-" + myUrl).find(".preview").find(".card");
+                myElem.find("img").attr("src", data.image);
+                myElem = myElem.find(".card-body");
+                myElem.find(".card-title").text(data.title);
+                myElem.find(".card-text").text(data.description);
+                myElem.find("a").attr("href", data.url);
             });
         });
     });
