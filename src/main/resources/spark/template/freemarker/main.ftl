@@ -46,7 +46,6 @@
                                     <img src="" class="card-img-top" height="200">
                                     <div class="card-body">
                                         <h5 class="card-title"></h5>
-                                        <p class="card-text"></p>
                                         <a href="" class="btn btn-primary">Loading...</a>
                                     </div>
                                 </div>
@@ -89,7 +88,6 @@
                 myElem.find("img").attr("src", data.image);
                 myElem = myElem.find(".card-body");
                 myElem.find(".card-title").text(data.title);
-                myElem.find(".card-text").text(data.description);
                 myElem.find("a").attr("href", data.url);
                 myElem.find("a").text("Go!");
             });
