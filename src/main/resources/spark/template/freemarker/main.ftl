@@ -58,16 +58,12 @@
                                 <a href="${host}s/${url.shortVersion}" target="_blank">${host}s/${url.shortVersion}</a>
                             </td>
                             <td>
-                                <#if user??>
-                                    <a href="/info/${url.shortVersion}" class="btn btn-info">Info</a>
-                                </#if>
+                                <a href="/info/${url.shortVersion}" class="btn btn-info">Info</a>
                             </td>
                             <td>
-                                <#if user??>
-                                    <form action="/s/${url.shortVersion}/delete" method="post">
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                </#if>
+                                <form action="/s/${url.shortVersion}/delete" method="post">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     </#list>

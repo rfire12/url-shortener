@@ -21,7 +21,11 @@
                     <tr>
                         <td><a href="${url.originalVersion}">${url.originalVersion}</a></td>
                         <td><a href="/s/${url.shortVersion}"/>${url.shortVersion}</td>
-                        <td>${url.user.username}</td>
+                        <td>
+                            <#if url.user??>
+                                ${url.user.username}
+                            </#if>
+                        </td>
                         <td>
                             <form action="/s/${url.shortVersion}/delete" method="post">
                                 <button type="submit" class="btn btn-danger">Delete</button>

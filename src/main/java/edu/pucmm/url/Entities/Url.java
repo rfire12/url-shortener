@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Url implements Serializable {
@@ -20,6 +21,9 @@ public class Url implements Serializable {
     private String anonymousUser;
     @ManyToOne
     private User user;
+
+    @OneToMany(mappedBy = "url", cascade = CascadeType.REMOVE)
+    private List<Info> myInfos;
 
     public Url() {
 
