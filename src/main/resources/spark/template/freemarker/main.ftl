@@ -43,7 +43,7 @@
                         <tr id="url-${url.shortVersion}">
                             <td class="preview">
                                 <div class="card">
-                                    <img src="" class="card-img-top">
+                                    <img src="" class="card-img-top" width="140" height="140">
                                     <div class="card-body">
                                         <h5 class="card-title"></h5>
                                         <p class="card-text"></p>
@@ -91,6 +91,7 @@
                 myElem.find(".card-title").text(data.title);
                 myElem.find(".card-text").text(data.description);
                 myElem.find("a").attr("href", data.url);
+                myElem.find("a").text("Go!");
             });
         });
     });
