@@ -34,21 +34,21 @@ public class UrlsController {
         });
 
         before("/info/:id", (request, response) -> {
-            User user = UsersServices.getInstance().findByObject(((User)request.session().attribute("user")));
+            User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             Boolean isAUserUrl = user != null ? UrlServices.getInstance().isAUserUrl(request.params("id"), user.getUid()) : null;
-            if(user == null || isAUserUrl == false){
+            if (user == null || isAUserUrl == false) {
                 response.redirect("/");
             }
         });
 
         get("/info/:id", (request, response) -> {
-            User user = UsersServices.getInstance().findByObject(((User)request.session().attribute("user")));
+            User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             Url url = UrlServices.getInstance().findByShortVersion(request.params("id"));
             List<Info> infoByUrl = InfoServices.getInstance().getInfoListByUrl(request.params("id"));
 
             Map<String, Object> obj = new HashMap<>();
             obj.put("url", url);
-            obj.put("date", url.getCreatedAt().toString().substring(0,10));
+            obj.put("date", url.getCreatedAt().toString().substring(0, 10));
             obj.put("protocol", request.scheme());
             obj.put("host", request.host());
             obj.put("user", user);
@@ -101,28 +101,35 @@ public class UrlsController {
             return "";
         });
 
-        get("/delete-url", (request, response) -> {
+        post("/s/:id/delete", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             obj.put("user", user);
-            return TemplatesController.renderFreemarker(obj, "delete-url.ftl");
+            String url = request.params("id");
+
+            UrlServices.getInstance().delete(url);
+
+//            if (UrlServices.getInstance().find(url) != null) {
+//                UrlServices.getInstance().delete(url);
+//                obj.put("type", "success");
+//                obj.put("alert", "URL deleted!");
+//            } else {
+//                obj.put("type", "danger");
+//                obj.put("alert", "URL not found");
+//            }
+
+            if (user.isAdmin())
+                response.redirect("/urls");
+            else
+                response.redirect("/");
+            return "";
         });
 
-        post("/delete-url", (request, response) -> {
+        get("/urls", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
-            User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
-            obj.put("user", user);
-            String url = request.queryParams("url").split("/")[4];
-            if (UrlServices.getInstance().find(url) != null) {
-                UrlServices.getInstance().delete(url);
-                obj.put("type", "success");
-                obj.put("alert", "URL deleted!");
-            } else {
-                obj.put("type", "danger");
-                obj.put("alert", "URL not found");
-            }
+            obj.put("urls", UrlServices.getInstance().findAll());
 
-            return TemplatesController.renderFreemarker(obj, "delete-url.ftl");
+            return TemplatesController.renderFreemarker(obj, "urls.ftl");
         });
     }
 }
