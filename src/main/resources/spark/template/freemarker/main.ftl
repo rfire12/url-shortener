@@ -76,7 +76,7 @@
         $('[id^="url-"]').each(function () {
             var myUrl = $(this).find(".urlShort").attr('class').split(' ')[1];
             $.ajax({
-                url: "http://api.linkpreview.net/?key=5de82b007f6d0ee5d57044e005d0f8104161e20b42286&q=${host}s/" + myUrl,
+                url: "https://api.linkpreview.net/?key=5de82b007f6d0ee5d57044e005d0f8104161e20b42286&q=${host}s/" + myUrl,
             }).done(function () {
                 $("#url-" + myUrl).text("DONE");
             });
