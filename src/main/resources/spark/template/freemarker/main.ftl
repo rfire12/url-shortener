@@ -42,8 +42,8 @@
                     <#list latest as url>
                         <tr id="url-${url.shortVersion}">
                             <td class="preview">
-                                <div class="card">
-                                    <img src="" class="card-img-top" width="140" height="140">
+                                <div class="card" style="width: 200px;">
+                                    <img src="" class="card-img-top" height="200">
                                     <div class="card-body">
                                         <h5 class="card-title"></h5>
                                         <p class="card-text"></p>
