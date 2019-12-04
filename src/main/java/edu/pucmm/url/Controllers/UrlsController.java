@@ -108,9 +108,12 @@ public class UrlsController {
             String strUrl = request.params("id");
             UrlServices.getInstance().delete(strUrl);
 
-            if (user.isAdmin())
-                response.redirect("/urls");
-            else
+            if (user != null) {
+                if (user.isAdmin())
+                    response.redirect("/urls");
+                else
+                    response.redirect("/");
+            } else
                 response.redirect("/");
             return "";
         });
