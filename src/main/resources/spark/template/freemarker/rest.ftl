@@ -15,10 +15,15 @@
         </form>
             <br/><br/>
             <#if jwt??>
-                <p style="word-wrap:break-word;">Your JWT is: ${jwt}</p><br/>
+                <p style="word-wrap:break-word;">Your JWT is:<br/>${jwt}</p><br/>
                 <#if jwt_exp??>
                     <span>It expires on: ${jwt_exp}</span>
                 </#if>
+                <br/>
+                <p style="word-wrap:break-word;">Use the following endpoint to get your shortened urls: <strong>${protocol}://${host}/rest-api/v1/urls</strong>
+                    <br/><br/>Send your JWT inside the body of your GET requests. e.g:<br/> {"access-key" : "MyJSON.Web.Token"}
+                </p>
+
             </#if>
     </div>
 </div>

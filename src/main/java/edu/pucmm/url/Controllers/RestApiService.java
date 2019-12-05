@@ -54,6 +54,8 @@ public class RestApiService {
             obj.put("user", user);
             obj.put("jwt", token);
             obj.put("jwt_exp", JWT.decode(token).getExpiresAt().toString());
+            obj.put("protocol", request.scheme());
+            obj.put("host", request.host());
             return TemplatesController.renderFreemarker(obj, "rest.ftl");
         });
 
@@ -62,7 +64,12 @@ public class RestApiService {
                 Gson gson = new Gson();
                 Type stringStringMap = new TypeToken<Map<String, String>>(){}.getType();
                 Map<String,String> data = gson.fromJson(request.body(), stringStringMap);
-                String token = data.get("access-key");
+                String token;
+                try {
+                    token = data.get("access-key");
+                }catch(Exception e){
+                    return "{\"data\": \"Invalid token\"}";
+                }
                 DecodedJWT jwt;
                 try {
                     Algorithm algorithm = Algorithm.HMAC256("KJFhJHNnHn1dsd433dofmK");
