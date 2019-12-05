@@ -71,6 +71,8 @@
             </div>
         </div>
     </#if>
+
+
 </div>
 <#include 'footer.ftl'>
 <script type="application/javascript">
