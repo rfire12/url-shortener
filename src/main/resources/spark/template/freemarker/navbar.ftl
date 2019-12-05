@@ -26,6 +26,7 @@
                                 <a class="dropdown-item" href="/delete-url">Delete URL</a>
                                 <a class="dropdown-item" href="/users">Users</a>
                             </#if>
+                            <a class="dropdown-item" href="/rest">Rest API</a>
                             <a class="dropdown-item" href="/logout">Log out</a>
                         </div>
                     </li>

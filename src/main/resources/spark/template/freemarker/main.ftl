@@ -41,6 +41,8 @@
             </ul>
         </div>
     </#if>
+
+
 </div>
 <#include 'footer.ftl'>
 </body>

@@ -28,8 +28,12 @@ dependencies {
     //Librerias de Hibernate
     compile 'org.hibernate:hibernate-core:5.4.1.Final'
     compile 'org.hibernate:hibernate-entitymanager:5.4.1.Final'
+    // ----------------------------
     compile 'com.moilioncircle:user-agent-utils:1.53'
     compile 'com.maxmind.geoip2:geoip2:2.12.0'
+    compile 'com.auth0:java-jwt:3.8.3'
+    compile 'com.google.code.gson:gson:2.8.6'
+
 }
 
 task stage {
