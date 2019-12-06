@@ -61,7 +61,7 @@ public class RestApiService {
         });
 
         path("/rest-api/v1", () -> {
-            get("/urls", (request, response) -> {
+            post("/urls", (request, response) -> {
                 Gson gson = new Gson();
                 Type stringStringMap = new TypeToken<Map<String, String>>(){}.getType();
                 Map<String,String> data = gson.fromJson(request.body(), stringStringMap);
