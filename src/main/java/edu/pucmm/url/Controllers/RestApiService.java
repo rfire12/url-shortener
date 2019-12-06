@@ -12,6 +12,7 @@ import edu.pucmm.url.Entities.Info;
 import edu.pucmm.url.Entities.Url;
 import edu.pucmm.url.Entities.User;
 import edu.pucmm.url.Services.InfoServices;
+import edu.pucmm.url.Services.UrlServices;
 import edu.pucmm.url.Services.UsersServices;
 
 import java.lang.reflect.Array;
@@ -97,6 +98,47 @@ public class RestApiService {
                 gson = new GsonBuilder().setPrettyPrinting().create();
 
                return gson.toJson(mapUrl);
+            });
+
+            post("/create", (request, response) -> {
+                Gson gson = new Gson();
+                Type stringStringMap = new TypeToken<Map<String, String>>(){}.getType();
+                Map<String,String> data = gson.fromJson(request.body(), stringStringMap);
+                String token;
+                try {
+                    token = data.get("access-key");
+                }catch(Exception e){
+                    return "{\"data\": \"Invalid token\"}";
+                }
+                DecodedJWT jwt;
+                try {
+                    Algorithm algorithm = Algorithm.HMAC256("KJFhJHNnHn1dsd433dofmK");
+                    JWTVerifier verifier = JWT.require(algorithm)
+                            .build();
+                    jwt = verifier.verify(token);
+                } catch (JWTVerificationException exception){
+                    return "{\"data\": \"Invalid token\"}";
+                }
+                User user = UsersServices.getInstance().findByUsername(jwt.getClaim("user").asString());
+
+                /* Shortify URL */
+                String shortUrl = UUID.randomUUID().toString().split("-")[0];
+
+                Url url = new Url(shortUrl, data.get("url"), "", user, null);
+                UrlServices.getInstance().create(url);
+
+                /* Adding URL to the user's list */
+                List<Url> myUrls = user.getMyUrls();
+                myUrls.add(url);
+                user.setMyUrls(myUrls);
+                UsersServices.getInstance().update(user);
+
+
+                Map<String, String> mapUrl = new HashMap<>();
+                mapUrl.put("shortened-url", request.scheme() + "://" + request.host() + "/s/" + shortUrl);
+                gson = new GsonBuilder().setPrettyPrinting().create();
+                return gson.toJson(mapUrl);
+
             });
         });
     }
