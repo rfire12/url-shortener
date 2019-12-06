@@ -1,6 +1,5 @@
 package edu.pucmm.url.Controllers;
 
-import com.maxmind.geoip2.model.CountryResponse;
 import edu.pucmm.url.Entities.Info;
 import edu.pucmm.url.Entities.Url;
 import edu.pucmm.url.Entities.User;
@@ -9,7 +8,6 @@ import edu.pucmm.url.Services.UrlServices;
 import edu.pucmm.url.Services.UsersServices;
 import eu.bitwalker.useragentutils.UserAgent;
 
-import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +38,13 @@ public class UrlsController {
                 response.redirect("/");
             }
         });
+        before("/urls", (request, response) -> {
+            User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
+            if(user == null || user.isAdmin() == false){
+                response.redirect("/");
+            }
+        });
+
 
         get("/info/:id", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));

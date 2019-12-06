@@ -10,6 +10,14 @@ import static spark.Spark.*;
 
 public class UsersController {
     public static void getRoutes() {
+
+        before("/users", (request, response) -> {
+            User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
+            if(user == null || user.isAdmin() == false){
+                response.redirect("/");
+            }
+        });
+
         get("/users", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
             User user = UsersServices.getInstance().findByObject(request.session().attribute("user"));

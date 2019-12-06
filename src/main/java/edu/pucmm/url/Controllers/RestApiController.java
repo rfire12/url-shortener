@@ -27,6 +27,14 @@ import java.util.*;
 import static spark.Spark.*;
 public class RestApiController {
     public static void getRoutes() {
+        before("/rest", (request, response) -> {
+            User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
+            if(user == null){
+                response.redirect("/");
+            }
+        });
+
+
         get("/rest", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             Map<String, Object> obj = new HashMap<>();
