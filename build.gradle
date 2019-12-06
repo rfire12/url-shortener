@@ -35,6 +35,10 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.6'
     // -----------------------------
     compile group: 'org.eclipse.jetty', name: 'jetty-http-spi', version: '9.4.4.v20170414'
+    compile "javax.xml.ws:jaxws-api:2.3.1"
+    compile "javax.jws:javax.jws-api:1.1"
+    compile "com.sun.xml.ws:rt:2.3.2"
+
 }
 
 task stage {
