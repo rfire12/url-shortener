@@ -82,7 +82,7 @@
         $('[id^="url-"]').each(function () {
             var myUrl = $(this).find(".urlShort").attr('class').split(' ')[1];
             $.ajax({
-                url: "https://api.linkpreview.net/?key=5dea97aa654d7ffdc324c91928245f88206c3e329467e&q=${host}s/" + myUrl,
+                url: "https://api.linkpreview.net/?key=5dea9a9314d2f06769d64b132210e2c34c21362c8ed88&q=${host}s/" + myUrl,
             }).done(function (data) {
                 var myElem = $("#url-" + myUrl).find(".preview").find(".card");
                 myElem.find("img").attr("src", data.image);
