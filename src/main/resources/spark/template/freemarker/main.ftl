@@ -57,7 +57,9 @@
                                 <a href="${host}s/${url.shortVersion}" target="_blank">${host}s/${url.shortVersion}</a>
                             </td>
                             <td>
-                                <a href="/info/${url.shortVersion}" class="btn btn-info">Info</a>
+                                <#if user??>
+                                    <a href="/info/${url.shortVersion}" class="btn btn-info">Info</a>
+                                </#if>
                             </td>
                             <td>
                                 <form action="/s/${url.shortVersion}/delete" method="post">

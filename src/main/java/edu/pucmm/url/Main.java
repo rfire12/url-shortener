@@ -1,7 +1,7 @@
 package edu.pucmm.url;
 
 import edu.pucmm.url.Controllers.LoginController;
-import edu.pucmm.url.Controllers.RestApiService;
+import edu.pucmm.url.Services.RestApiService;
 import edu.pucmm.url.Controllers.UrlsController;
 import edu.pucmm.url.Controllers.UsersController;
 import edu.pucmm.url.Services.BootstrapService;
@@ -10,8 +10,6 @@ import edu.pucmm.url.Services.UsersServices;
 import edu.pucmm.url.Entities.User;
 import edu.pucmm.url.Soap.SoapInit;
 import spark.Session;
-
-import java.sql.SQLException;
 
 import static spark.Spark.*;
 
