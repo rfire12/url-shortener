@@ -1,25 +1,41 @@
 package edu.pucmm.url.Entities;
 
+import com.google.gson.annotations.Expose;
+import edu.pucmm.url.Soap.XmlDateFormat;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@XmlType
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Url implements Serializable {
     @Id
     @Column(unique = true)
     private String shortVersion;
     private String originalVersion;
     private String qrVersion;
+
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    @XmlJavaTypeAdapter(XmlDateFormat.class)
+    private Timestamp createdAt;
+
     private String anonymousUser;
+
     @ManyToOne
+    @XmlTransient
     private User user;
 
     @OneToMany(mappedBy = "url", cascade = CascadeType.REMOVE)
@@ -34,7 +50,7 @@ public class Url implements Serializable {
         this.originalVersion = originalVersion;
         this.qrVersion = qrVersion;
         this.user = user;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = new Timestamp(System.currentTimeMillis());
         this.anonymousUser = anonymousUser;
     }
 
@@ -78,11 +94,11 @@ public class Url implements Serializable {
         this.user = user;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 }
