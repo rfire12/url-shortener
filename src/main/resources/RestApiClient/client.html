@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      th,
+      td,
+      p,
+      input {
+        font: 14px Verdana;
+      }
+      table,
+      th,
+      td {
+        border: solid 1px #ddd;
+        border-collapse: collapse;
+        padding: 2px 3px;
+        text-align: center;
+      }
+      th {
+        font-weight: bold;
+      }
+      input[type="text"]{
+          width: 500px;
+      }
+    </style>
+    <h2>Obtener URLs</h2>
+    <form>
+    <input type="text" name="endpoint" id="endpoint" placeholder="Introduzca el endpoint" />
+    <input type="text" name="token" id="token" placeholder="Introduzca su JWT" />
+    <input type="submit" name="submit" id="submit" value="Obtener urls" />
+    <br/><br/>
+    <h2>Crear URL</h2>
+    <input type="text" name="endpoint_create" id="endpoint_create" placeholder="Introduzca el endpoint" />
+    <input type="text" name="token_create" id="token_create" placeholder="Introduzca su JWT" />
+    <input type="text" name="url_create" id="url_create" placeholder="Introduzca la url a acortar" />
+    <input type="submit" name="submit_create" id="submit_create" value="Obtener urls" />
+    <br />
+    </form>
+    <p id="showData"></p>
+  </body>
+</html>
+
+<script type="text/javascript">
+  document.getElementById("submit").addEventListener("click", (e) => {
+    e.preventDefault();
+    const data = {
+      "access-key": document.getElementById("token").value
+    };
+    fetch(document.getElementById("endpoint").value, {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(response => CreateTableFromJSON(response.urls));
+  });
+
+  document.getElementById("submit_create").addEventListener("click", (e) => {
+    e.preventDefault();
+    const data2 = {
+      "access-key": document.getElementById("token_create").value,
+      "url": document.getElementById("url_create").value
+    };
+    console.log("klk")
+    fetch(document.getElementById("endpoint_create").value, {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify(data2),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(response => CreateTableFromJSON([response]))
+  });
+
+</script>
+
+<script>
+  function CreateTableFromJSON(urls) {
+    // EXTRACT VALUE FOR HTML HEADER.
+    // ('Book ID', 'Book Name', 'Category' and 'Price')
+    var col = [];
+    for (var i = 0; i < urls.length; i++) {
+      for (var key in urls[i]) {
+        if (col.indexOf(key) === -1) {
+          col.push(key);
+        }
+      }
+    }
+
+    // CREATE DYNAMIC TABLE.
+    var table = document.createElement("table");
+
+    // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+    var tr = table.insertRow(-1); // TABLE ROW.
+
+    for (var i = 0; i < col.length; i++) {
+      var th = document.createElement("th"); // TABLE HEADER.
+      th.innerHTML = col[i];
+      tr.appendChild(th);
+    }
+
+    // ADD JSON DATA TO THE TABLE AS ROWS.
+    for (var i = 0; i < urls.length; i++) {
+      tr = table.insertRow(-1);
+
+      for (var j = 0; j < col.length; j++) {
+        var tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = urls[i][col[j]];
+      }
+    }
+
+    // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+    var divContainer = document.getElementById("showData");
+    divContainer.innerHTML = "";
+    divContainer.appendChild(table);
+  }
+</script>

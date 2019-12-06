@@ -1,7 +1,7 @@
 package edu.pucmm.url;
 
 import edu.pucmm.url.Controllers.LoginController;
-import edu.pucmm.url.Services.RestApiService;
+import edu.pucmm.url.Controllers.RestApiController;
 import edu.pucmm.url.Controllers.UrlsController;
 import edu.pucmm.url.Controllers.UsersController;
 import edu.pucmm.url.Services.BootstrapService;
@@ -62,10 +62,12 @@ public class Main {
         });
 
         // Get routes
+
         UsersController.getRoutes();
         LoginController.getRoutes();
+        RestApiController.getRoutes();
         UrlsController.getRoutes();
-        RestApiService.getRoutes();
+
     }
 
     static int getHerokuPort() {

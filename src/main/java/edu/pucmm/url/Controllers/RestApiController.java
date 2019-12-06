@@ -1,32 +1,31 @@
-package edu.pucmm.url.Services;
+package edu.pucmm.url.Controllers;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.impl.NullClaim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.reflect.TypeToken;
-import edu.pucmm.url.Controllers.TemplatesController;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import edu.pucmm.url.Entities.Info;
 import edu.pucmm.url.Entities.Url;
 import edu.pucmm.url.Entities.User;
 import edu.pucmm.url.Services.InfoServices;
 import edu.pucmm.url.Services.UrlServices;
 import edu.pucmm.url.Services.UsersServices;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import static spark.Spark.*;
-public class RestApiService {
+public class RestApiController {
     public static void getRoutes() {
         get("/rest", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
@@ -62,7 +61,7 @@ public class RestApiService {
         });
 
         path("/rest-api/v1", () -> {
-            get("/urls", (request, response) -> {
+            post("/urls", (request, response) -> {
                 Gson gson = new Gson();
                 Type stringStringMap = new TypeToken<Map<String, String>>(){}.getType();
                 Map<String,String> data = gson.fromJson(request.body(), stringStringMap);
@@ -117,7 +116,7 @@ public class RestApiService {
                 mapUrl.put("urls", urls);
                 gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
-               return gson.toJson(mapUrl);
+                return gson.toJson(mapUrl);
             });
 
             post("/create", (request, response) -> {
@@ -173,9 +172,20 @@ public class RestApiService {
                     ips += info.getIp() + ", ";
                 }
 
+
+                /* Image base 64*/
+                String linkPreviewAPI = "https://api.linkpreview.net/?key=5de82b007f6d0ee5d57044e005d0f8104161e20b42286&q=" + url.getOriginalVersion();
+                HttpResponse<JsonNode> linkPreviewResult = Unirest.get(linkPreviewAPI)
+                        .asJson();
+                String image = linkPreviewResult.getBody().getObject().getString("image");
+                String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
+
                 mapUrl.put("browsers", browsers);
                 mapUrl.put("OS", os);
                 mapUrl.put("IPs", ips);
+                mapUrl.put("image", base64Image);
+                mapUrl.put("imageTitle", linkPreviewResult.getBody().getObject().getString("title"));
+                mapUrl.put("imageUrl", linkPreviewResult.getBody().getObject().getString("url"));
                 gson = new GsonBuilder().setPrettyPrinting().create();
                 return gson.toJson(mapUrl);
 
