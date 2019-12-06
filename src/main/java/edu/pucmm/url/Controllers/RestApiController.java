@@ -182,7 +182,7 @@ public class RestApiController {
 
 
                 /* Image base 64*/
-                String linkPreviewAPI = "https://api.linkpreview.net/?key=5dea97aa654d7ffdc324c91928245f88206c3e329467e=" + url.getOriginalVersion();
+                String linkPreviewAPI = "https://api.linkpreview.net/?key=5dea9a9314d2f06769d64b132210e2c34c21362c8ed88&q=" + url.getOriginalVersion();
                 HttpResponse<JsonNode> linkPreviewResult = Unirest.get(linkPreviewAPI)
                         .asJson();
                 String image = linkPreviewResult.getBody().getObject().getString("image");
