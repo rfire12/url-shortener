@@ -1,7 +1,5 @@
 package edu.pucmm.url.Entities;
 
-import com.google.gson.annotations.Expose;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -12,19 +10,14 @@ import java.sql.Date;
 public class Info implements Serializable {
     @Id
     private String uid;
-    @Expose
     private Date date;
 
     @ManyToOne
     private Url url;
 
-    @Expose
     private String browser;
-    @Expose
     private String os;
-    @Expose
     private String country;
-    @Expose
     private String ip;
 
     public Info() {
