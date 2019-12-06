@@ -86,16 +86,35 @@ public class RestApiService {
                 List<Url> myUrls = user.getMyUrls();
                 Map<String, String> url;
                 List<Map> urls = new ArrayList<>();
+
+                String stat;
+                List<Map<String, String>> list;
                 for(Url myUrl: myUrls){
                     url = new HashMap<>();
                     url.put("original_version", myUrl.getOriginalVersion());
                     url.put("short_version", request.scheme() + "://" + request.host() + "/s/" + myUrl.getShortVersion());
                     url.put("link_use_count", Integer.toString(InfoServices.getInstance().getInfoListByUrl(myUrl.getShortVersion()).size()));
+
+                    List<Info> urlInfo = InfoServices.getInstance().getInfoListByUrl(myUrl.getShortVersion());
+                    String browsers = "";
+                    String os = "";
+                    String ips = "";
+
+                    for(Info info: urlInfo){
+                        browsers += info.getBrowser() + ", ";
+                        os += info.getOs() + ", ";
+                        ips += info.getIp() + ", ";
+                    }
+
+                    url.put("browsers", browsers);
+                    url.put("OS", os);
+                    url.put("IPs", ips);
+
                     urls.add(url);
                 }
                 Map<String, List> mapUrl = new HashMap<>();
                 mapUrl.put("urls", urls);
-                gson = new GsonBuilder().setPrettyPrinting().create();
+                gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
                return gson.toJson(mapUrl);
             });
@@ -136,6 +155,26 @@ public class RestApiService {
 
                 Map<String, String> mapUrl = new HashMap<>();
                 mapUrl.put("shortened-url", request.scheme() + "://" + request.host() + "/s/" + shortUrl);
+                mapUrl.put("createdAt", url.getCreatedAt().toString());
+
+
+                // Stats
+                List<Info> urlInfo = InfoServices.getInstance().getInfoListByUrl(url.getShortVersion());
+
+                String browsers = "";
+                String os = "";
+                String ips = "";
+                List<Map<String, String>> list = new ArrayList();
+
+                for(Info info: urlInfo){
+                    browsers += info.getBrowser() + ", ";
+                    os += info.getOs() + ", ";
+                    ips += info.getIp() + ", ";
+                }
+
+                mapUrl.put("browsers", browsers);
+                mapUrl.put("OS", os);
+                mapUrl.put("IPs", ips);
                 gson = new GsonBuilder().setPrettyPrinting().create();
                 return gson.toJson(mapUrl);
 
