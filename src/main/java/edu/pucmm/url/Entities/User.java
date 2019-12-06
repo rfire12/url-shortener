@@ -1,14 +1,15 @@
 package edu.pucmm.url.Entities;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Entity
+@XmlType
+@XmlAccessorType(XmlAccessType.FIELD)
 public class User implements Serializable {
     @Id
     private String uid;
