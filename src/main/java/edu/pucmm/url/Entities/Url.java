@@ -1,6 +1,5 @@
 package edu.pucmm.url.Entities;
 
-import com.google.gson.annotations.Expose;
 import edu.pucmm.url.Soap.XmlDateFormat;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -11,11 +10,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -40,6 +35,8 @@ public class Url implements Serializable {
 
     @OneToMany(mappedBy = "url", cascade = CascadeType.REMOVE)
     private List<Info> myInfos;
+
+    private String imageBase;
 
     public Url() {
 
@@ -100,5 +97,21 @@ public class Url implements Serializable {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Info> getMyInfos() {
+        return myInfos;
+    }
+
+    public void setMyInfos(List<Info> myInfos) {
+        this.myInfos = myInfos;
+    }
+
+    public String getImageBase() {
+        return imageBase;
+    }
+
+    public void setImageBase(String imageBase) {
+        this.imageBase = imageBase;
     }
 }
