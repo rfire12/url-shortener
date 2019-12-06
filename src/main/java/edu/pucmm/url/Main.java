@@ -1,25 +1,26 @@
 package edu.pucmm.url;
 
 import edu.pucmm.url.Controllers.LoginController;
-import edu.pucmm.url.Controllers.RestApiService;
+import edu.pucmm.url.Services.RestApiService;
 import edu.pucmm.url.Controllers.UrlsController;
 import edu.pucmm.url.Controllers.UsersController;
 import edu.pucmm.url.Services.BootstrapService;
 import edu.pucmm.url.Services.DatabaseService;
 import edu.pucmm.url.Services.UsersServices;
 import edu.pucmm.url.Entities.User;
+import edu.pucmm.url.Soap.SoapInit;
 import spark.Session;
-
-import java.sql.SQLException;
 
 import static spark.Spark.*;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws Exception {
         // Setting up the port
         port(getHerokuPort());
 
         staticFiles.location("/public");
+
+        SoapInit.init();
 
         // Initializing the database
         BootstrapService.startDb();
