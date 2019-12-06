@@ -10,6 +10,7 @@ import edu.pucmm.url.Services.UsersServices;
 import eu.bitwalker.useragentutils.UserAgent;
 
 import java.net.InetAddress;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,8 +63,7 @@ public class UrlsController {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
 
             UserAgent userAgent = UserAgent.parseUserAgentString(request.headers("User-Agent"));
-            java.util.Date date = new java.util.Date();
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            Timestamp sqlDate = new Timestamp(System.currentTimeMillis());
             Info info = new Info(UUID.randomUUID().toString(), sqlDate, url, userAgent.getBrowser().toString(), userAgent.getOperatingSystem().toString(), "Dominican Republic", request.ip());
             InfoServices.getInstance().create(info);
             response.redirect(url.getOriginalVersion());
