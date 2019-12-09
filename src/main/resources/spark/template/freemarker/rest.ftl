@@ -21,13 +21,13 @@
                 </#if></p>
                 <br/>
                 <p class="info">Use the following endpoint to get your shortened urls: <strong>${protocol}://${host}/rest-api/v1/urls</strong>
-                    <br/><br/>Send your JWT inside the body of your GET requests. e.g:<br/> {"access-key" : "MyJSON.Web.Token"}
+                    <br/><br/>Send your JWT inside the Authorization header of your GET requests. e.g:<br/> {"Authorization" : "MyJSON.Web.Token"}
                 </p>
                 <br/>
                 <p class="info">
                     Use the following endpoint to create urls: <strong>${protocol}://${host}/rest-api/v1/create</strong>
-                    <br/><br/>Send your JWT inside the body of your POST requests with the URL you want to shortify.
-                    e.g:<br/> {"access-key" : "MyJSON.Web.Token", "url": "https://www.google.com/"}
+                    <br/><br/>Send your JWT inside the Authorization header of your POST requests with the URL you want to shortify in the body.
+                    e.g:<br/> "headers": {"Authorization" : "MyJSON.Web.Token"}, body: {"url": "https://www.google.com/"}
                 </p>
 
             </#if>

@@ -1,10 +1,8 @@
 package edu.pucmm.url.Controllers;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -15,6 +13,7 @@ import edu.pucmm.url.Entities.User;
 import edu.pucmm.url.Services.InfoServices;
 import edu.pucmm.url.Services.UrlServices;
 import edu.pucmm.url.Services.UsersServices;
+import edu.pucmm.url.utils.Utils;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -26,6 +25,9 @@ import java.util.*;
 
 import static spark.Spark.*;
 public class RestApiController {
+
+    private DecodedJWT jwt;
+
     public static void getRoutes() {
         before("/rest", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
@@ -33,7 +35,6 @@ public class RestApiController {
                 response.redirect("/");
             }
         });
-
 
         get("/rest", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
@@ -68,35 +69,23 @@ public class RestApiController {
             return TemplatesController.renderFreemarker(obj, "rest.ftl");
         });
 
+        before("/rest-api/v1/*", (request, response) -> {
+            DecodedJWT jwt = Utils.getJwt(request.headers("Authorization"));
+            System.out.println(request.headers("Authorization"));
+            if(jwt == null){
+                halt(401, "{\"data\": \"Invalid token\"}");
+            }
+        });
+
+
         path("/rest-api/v1", () -> {
-            post("/urls", (request, response) -> {
-                Gson gson = new Gson();
-                Type stringStringMap = new TypeToken<Map<String, String>>(){}.getType();
-                Map<String,String> data = gson.fromJson(request.body(), stringStringMap);
-                String token;
-                try {
-                    token = data.get("access-key");
-                }catch(Exception e){
-                    return "{\"data\": \"Invalid token\"}";
-                }
-                DecodedJWT jwt;
-                try {
-                    Algorithm algorithm = Algorithm.HMAC256("KJFhJHNnHn1dsd433dofmK");
-                    JWTVerifier verifier = JWT.require(algorithm)
-                            .build();
-                    jwt = verifier.verify(token);
-                } catch (JWTVerificationException exception){
-                    return "{\"data\": \"Invalid token\"}";
-                }
-
-
+            get("/urls", (request, response) -> {
+                DecodedJWT jwt = Utils.getJwt(request.headers("Authorization"));
                 User user = UsersServices.getInstance().findByUsername(jwt.getClaim("user").asString());
                 List<Url> myUrls = user.getMyUrls();
                 Map<String, String> url;
                 List<Map> urls = new ArrayList<>();
 
-                String stat;
-                List<Map<String, String>> list;
                 for(Url myUrl: myUrls){
                     url = new HashMap<>();
                     url.put("original_version", myUrl.getOriginalVersion());
@@ -122,7 +111,7 @@ public class RestApiController {
                 }
                 Map<String, List> mapUrl = new HashMap<>();
                 mapUrl.put("urls", urls);
-                gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+                Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
                 return gson.toJson(mapUrl);
             });
@@ -131,21 +120,8 @@ public class RestApiController {
                 Gson gson = new Gson();
                 Type stringStringMap = new TypeToken<Map<String, String>>(){}.getType();
                 Map<String,String> data = gson.fromJson(request.body(), stringStringMap);
-                String token;
-                try {
-                    token = data.get("access-key");
-                }catch(Exception e){
-                    return "{\"data\": \"Invalid token\"}";
-                }
-                DecodedJWT jwt;
-                try {
-                    Algorithm algorithm = Algorithm.HMAC256("KJFhJHNnHn1dsd433dofmK");
-                    JWTVerifier verifier = JWT.require(algorithm)
-                            .build();
-                    jwt = verifier.verify(token);
-                } catch (JWTVerificationException exception){
-                    return "{\"data\": \"Invalid token\"}";
-                }
+                DecodedJWT jwt = Utils.getJwt(request.headers("Authorization"));
+
                 User user = UsersServices.getInstance().findByUsername(jwt.getClaim("user").asString());
 
                 /* Shortify URL */
@@ -172,7 +148,6 @@ public class RestApiController {
                 String browsers = "";
                 String os = "";
                 String ips = "";
-                List<Map<String, String>> list = new ArrayList();
 
                 for(Info info: urlInfo){
                     browsers += info.getBrowser() + ", ";

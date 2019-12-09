@@ -63,15 +63,17 @@ public class UrlsController {
         });
 
         get("/s/:id", (request, response) -> {
-            Url url = UrlServices.getInstance().find(request.params("id"));
-            User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
-
-            UserAgent userAgent = UserAgent.parseUserAgentString(request.headers("User-Agent"));
-            java.util.Date date = new java.util.Date();
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            Info info = new Info(UUID.randomUUID().toString(), sqlDate, url, userAgent.getBrowser().toString(), userAgent.getOperatingSystem().toString(), "Dominican Republic", request.ip());
-            InfoServices.getInstance().create(info);
-            response.redirect(url.getOriginalVersion());
+            try {
+                Url url = UrlServices.getInstance().find(request.params("id"));
+                UserAgent userAgent = UserAgent.parseUserAgentString(request.headers("User-Agent"));
+                java.util.Date date = new java.util.Date();
+                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                Info info = new Info(UUID.randomUUID().toString(), sqlDate, url, userAgent.getBrowser().toString(), userAgent.getOperatingSystem().toString(), "Dominican Republic", request.ip());
+                InfoServices.getInstance().create(info);
+                response.redirect(url.getOriginalVersion());
+            }catch(Exception e){
+                response.redirect("/");
+            }
             return "";
         });
 

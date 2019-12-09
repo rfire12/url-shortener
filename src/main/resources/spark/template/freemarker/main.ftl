@@ -56,16 +56,18 @@
                             <td class="urlShort ${url.shortVersion}">
                                 <a href="${host}s/${url.shortVersion}" target="_blank">${host}s/${url.shortVersion}</a>
                             </td>
-                            <td>
-                                <#if user??>
-                                    <a href="/info/${url.shortVersion}" class="btn btn-info">Info</a>
+                            <#if user??>
+                                <td>
+                                     <a href="/info/${url.shortVersion}" class="btn btn-info">Info</a>
+                                </td>
+                                <#if user.admin == true>
+                                    <td>
+                                        <form action="/s/${url.shortVersion}/delete" method="post">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </td>
                                 </#if>
-                            </td>
-                            <td>
-                                <form action="/s/${url.shortVersion}/delete" method="post">
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
-                            </td>
+                            </#if>
                         </tr>
                     </#list>
                     </tbody>
