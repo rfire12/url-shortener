@@ -40,7 +40,7 @@ public class UrlsController {
         });
         before("/urls", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
-            if(user == null || user.isAdmin() == false){
+            if (user == null || user.isAdmin() == false) {
                 response.redirect("/");
             }
         });
@@ -71,8 +71,8 @@ public class UrlsController {
                 Info info = new Info(UUID.randomUUID().toString(), sqlDate, url, userAgent.getBrowser().toString(), userAgent.getOperatingSystem().toString(), "Dominican Republic", request.ip());
                 InfoServices.getInstance().create(info);
                 response.redirect(url.getOriginalVersion());
-            }catch(Exception e){
-                response.redirect("/");
+            } catch (Exception e) {
+                return TemplatesController.renderFreemarker(null, "url-not-found.ftl");
             }
             return "";
         });
