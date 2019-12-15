@@ -29,9 +29,8 @@ public class Main {
         // Testing connection
         DatabaseService.getInstance().testConnection();
 
-        options("/*",
+        options("/rest-api/v1/*",
                 (request, response) -> {
-
                     String accessControlRequestHeaders = request
                             .headers("Access-Control-Request-Headers");
                     if (accessControlRequestHeaders != null) {

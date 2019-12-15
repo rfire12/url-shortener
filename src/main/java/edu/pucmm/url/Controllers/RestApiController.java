@@ -70,15 +70,26 @@ public class RestApiController {
         });
 
         before("/rest-api/v1/*", (request, response) -> {
-            DecodedJWT jwt = Utils.getJwt(request.headers("Authorization"));
-            System.out.println(request.headers("Authorization"));
-            if(jwt == null){
-                halt(401, "{\"data\": \"Invalid token\"}");
+            System.out.println(request.requestMethod());
+            if(!request.requestMethod().equalsIgnoreCase("options")) {
+                DecodedJWT jwt = Utils.getJwt(request.headers("Authorization"));
+                if (jwt == null) {
+                    halt(401, "{\"data\": \"Invalid token\"}");
+                }
             }
         });
 
 
         path("/rest-api/v1", () -> {
+            before("/*", (request, response) -> {
+                if(!request.requestMethod().equalsIgnoreCase("options")) {
+                    DecodedJWT jwt = Utils.getJwt(request.headers("Authorization"));
+                    if (jwt == null) {
+                        halt(401, "{\"data\": \"Invalid token\"}");
+                    }
+                }
+            });
+
             get("/urls", (request, response) -> {
                 DecodedJWT jwt = Utils.getJwt(request.headers("Authorization"));
                 User user = UsersServices.getInstance().findByUsername(jwt.getClaim("user").asString());

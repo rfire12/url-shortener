@@ -53,9 +53,6 @@
       method: "GET",
       mode: "cors",
       headers: {
-        "Access-Control-Allow-Credentials": "*",
-        "Access-Control-Allow-Origin": "127.0.0.1",
-        "content-type": "application/json",
         "Authorization": document.getElementById("token").value
       }
     })
@@ -74,7 +71,6 @@
       body: JSON.stringify(data2),
       headers: {
         "Authorization": document.getElementById("token_create").value,
-        "Content-Type": "application/json"
       }
     })
       .then(response => response.json())
