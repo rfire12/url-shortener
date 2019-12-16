@@ -54,7 +54,7 @@
                                 ${url.originalVersion}
                             </td>
                             <td class="urlShort ${url.shortVersion}">
-                                <a href="${host}s/${url.shortVersion}" target="_blank">${host}s/${url.shortVersion}</a>
+                                <a href="${protocol}://${host}/s/${url.shortVersion}" target="_blank">${protocol}://${host}/s/${url.shortVersion}</a>
                             </td>
                             <#if user??>
                                 <td>

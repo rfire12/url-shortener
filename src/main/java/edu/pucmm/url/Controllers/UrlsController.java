@@ -27,7 +27,8 @@ public class UrlsController {
             obj.put("latest", urls);
             obj.put("latestSize", urls.size());
             obj.put("user", user);
-            obj.put("host", request.url());
+            obj.put("host", request.host());
+            obj.put("protocol", request.scheme() + "s");
             return TemplatesController.renderFreemarker(obj, "main.ftl");
         });
 
