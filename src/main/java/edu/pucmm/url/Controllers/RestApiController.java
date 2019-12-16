@@ -24,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static spark.Spark.*;
-
 public class RestApiController {
 
     private DecodedJWT jwt;
@@ -32,7 +31,7 @@ public class RestApiController {
     public static void getRoutes() {
         before("/rest", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
-            if (user == null) {
+            if(user == null){
                 response.redirect("/");
             }
         });
@@ -58,21 +57,21 @@ public class RestApiController {
                         .withClaim("user", user.getUsername())
                         .withExpiresAt(expirationDate)
                         .sign(algorithm);
-            } catch (JWTCreationException exception) {
+            } catch (JWTCreationException exception){
                 token = null;
             }
             Map<String, Object> obj = new HashMap<>();
             obj.put("user", user);
             obj.put("jwt", token);
             obj.put("jwt_exp", JWT.decode(token).getExpiresAt().toString());
-            obj.put("protocol", "https");
+            obj.put("protocol", request.scheme());
             obj.put("host", request.host());
             return TemplatesController.renderFreemarker(obj, "rest.ftl");
         });
 
         before("/rest-api/v1/*", (request, response) -> {
             System.out.println(request.requestMethod());
-            if (!request.requestMethod().equalsIgnoreCase("options")) {
+            if(!request.requestMethod().equalsIgnoreCase("options")) {
                 DecodedJWT jwt = Utils.getJwt(request.headers("Authorization"));
                 if (jwt == null) {
                     halt(401, "{\"data\": \"Invalid token\"}");
@@ -83,7 +82,7 @@ public class RestApiController {
 
         path("/rest-api/v1", () -> {
             before("/*", (request, response) -> {
-                if (!request.requestMethod().equalsIgnoreCase("options")) {
+                if(!request.requestMethod().equalsIgnoreCase("options")) {
                     DecodedJWT jwt = Utils.getJwt(request.headers("Authorization"));
                     if (jwt == null) {
                         halt(401, "{\"data\": \"Invalid token\"}");
@@ -98,7 +97,7 @@ public class RestApiController {
                 Map<String, String> url;
                 List<Map> urls = new ArrayList<>();
 
-                for (Url myUrl : myUrls) {
+                for(Url myUrl: myUrls){
                     url = new HashMap<>();
                     url.put("original_version", myUrl.getOriginalVersion());
                     url.put("short_version", request.scheme() + "://" + request.host() + "/s/" + myUrl.getShortVersion());
@@ -109,7 +108,7 @@ public class RestApiController {
                     String os = "";
                     String ips = "";
 
-                    for (Info info : urlInfo) {
+                    for(Info info: urlInfo){
                         browsers += info.getBrowser() + ", ";
                         os += info.getOs() + ", ";
                         ips += info.getIp() + ", ";
@@ -130,9 +129,8 @@ public class RestApiController {
 
             post("/create", (request, response) -> {
                 Gson gson = new Gson();
-                Type stringStringMap = new TypeToken<Map<String, String>>() {
-                }.getType();
-                Map<String, String> data = gson.fromJson(request.body(), stringStringMap);
+                Type stringStringMap = new TypeToken<Map<String, String>>(){}.getType();
+                Map<String,String> data = gson.fromJson(request.body(), stringStringMap);
                 DecodedJWT jwt = Utils.getJwt(request.headers("Authorization"));
 
                 User user = UsersServices.getInstance().findByUsername(jwt.getClaim("user").asString());
@@ -162,7 +160,7 @@ public class RestApiController {
                 String os = "";
                 String ips = "";
 
-                for (Info info : urlInfo) {
+                for(Info info: urlInfo){
                     browsers += info.getBrowser() + ", ";
                     os += info.getOs() + ", ";
                     ips += info.getIp() + ", ";

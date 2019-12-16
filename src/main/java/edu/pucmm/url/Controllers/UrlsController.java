@@ -54,7 +54,7 @@ public class UrlsController {
             Map<String, Object> obj = new HashMap<>();
             obj.put("url", url);
             obj.put("date", url.getCreatedAt().toString().substring(0, 10));
-            obj.put("protocol", "https");
+            obj.put("protocol", request.scheme());
             obj.put("host", request.host());
             obj.put("user", user);
             obj.put("access", infoByUrl);
