@@ -32,7 +32,7 @@ public class RestApiController {
         before("/rest", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             if(user == null){
-                response.redirect("/");
+                response.redirect("/", 302);
             }
         });
 

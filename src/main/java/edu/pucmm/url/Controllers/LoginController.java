@@ -16,7 +16,7 @@ public class LoginController {
         before("/login", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             if (user != null) {
-                response.redirect("/");
+                response.redirect("/", 302);
             }
         });
 
@@ -24,7 +24,7 @@ public class LoginController {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
 
             if (user != null && !user.isAdmin()) {
-                response.redirect("/");
+                response.redirect("/", 302);
             }
 
         });
@@ -49,10 +49,10 @@ public class LoginController {
                     response.cookie("USER", user.getUid(), 604800);
                 }
 
-                response.redirect("/");
+                response.redirect("/", 302);
 
             } else {
-                response.redirect("/login");
+                response.redirect("/login", 302);
             }
             return "";
         });
@@ -86,9 +86,9 @@ public class LoginController {
                 Session session = request.session(true);
                 session.attribute("user", user);
                 response.removeCookie("ANONYMOUSUSER");
-                response.redirect("/");
+                response.redirect("/", 302);
             } else {
-                response.redirect("/create-user");
+                response.redirect("/create-user", 302);
             }
 
             return "";
@@ -97,7 +97,7 @@ public class LoginController {
         get("/logout", (request, response) -> {
             request.session().removeAttribute("user");
             response.removeCookie("USER");
-            response.redirect("/login");
+            response.redirect("/login", 302);
             return "";
         });
 

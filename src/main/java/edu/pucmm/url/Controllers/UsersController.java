@@ -14,7 +14,7 @@ public class UsersController {
         before("/users", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             if(user == null || user.isAdmin() == false){
-                response.redirect("/");
+                response.redirect("/", 302);
             }
         });
 
@@ -30,7 +30,7 @@ public class UsersController {
             User user = UsersServices.getInstance().find(request.params("id"));
             user.setAdmin(true);
             UsersServices.getInstance().update(user);
-            response.redirect("/users");
+            response.redirect("/users", 302);
             return "";
         });
 
@@ -38,13 +38,13 @@ public class UsersController {
             User user = UsersServices.getInstance().find(request.params("id"));
             user.setAdmin(false);
             UsersServices.getInstance().update(user);
-            response.redirect("/users");
+            response.redirect("/users", 302);
             return "";
         });
 
         post("/:id/delete-user", (request, response) -> {
             UsersServices.getInstance().delete(request.params("id"));
-            response.redirect("/users");
+            response.redirect("/users", 302);
             return "";
         });
     }

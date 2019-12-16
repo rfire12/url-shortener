@@ -35,13 +35,13 @@ public class UrlsController {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             Boolean isAUserUrl = user != null ? UrlServices.getInstance().isAUserUrl(request.params("id"), user.getUid()) : null;
             if (user == null || isAUserUrl == false) {
-                response.redirect("/");
+                response.redirect("/", 302);
             }
         });
         before("/urls", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(((User) request.session().attribute("user")));
             if (user == null || user.isAdmin() == false) {
-                response.redirect("/");
+                response.redirect("/", 302);
             }
         });
 
@@ -70,7 +70,7 @@ public class UrlsController {
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
                 Info info = new Info(UUID.randomUUID().toString(), sqlDate, url, userAgent.getBrowser().toString(), userAgent.getOperatingSystem().toString(), "Dominican Republic", request.ip());
                 InfoServices.getInstance().create(info);
-                response.redirect(url.getOriginalVersion());
+                response.redirect(url.getOriginalVersion(), 302);
             } catch (Exception e) {
                 return TemplatesController.renderFreemarker(null, "url-not-found.ftl");
             }
@@ -104,7 +104,7 @@ public class UrlsController {
             } else if (userCookie == null) {
                 response.cookie("ANONYMOUSUSER", newCookie, 604800);
             }
-            response.redirect("/");
+            response.redirect("/", 302);
             return "";
         });
 
@@ -117,11 +117,11 @@ public class UrlsController {
 
             if (user != null) {
                 if (user.isAdmin())
-                    response.redirect("/urls");
+                    response.redirect("/urls", 302);
                 else
-                    response.redirect("/");
+                    response.redirect("/", 302);
             } else
-                response.redirect("/");
+                response.redirect("/", 302);
             return "";
         });
 
