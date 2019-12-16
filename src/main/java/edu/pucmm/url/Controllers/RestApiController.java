@@ -64,7 +64,7 @@ public class RestApiController {
             obj.put("user", user);
             obj.put("jwt", token);
             obj.put("jwt_exp", JWT.decode(token).getExpiresAt().toString());
-            obj.put("protocol", request.scheme());
+            obj.put("protocol", request.scheme() + "s");
             obj.put("host", request.host());
             return TemplatesController.renderFreemarker(obj, "rest.ftl");
         });
@@ -100,7 +100,7 @@ public class RestApiController {
                 for(Url myUrl: myUrls){
                     url = new HashMap<>();
                     url.put("original_version", myUrl.getOriginalVersion());
-                    url.put("short_version", request.scheme() + "://" + request.host() + "/s/" + myUrl.getShortVersion());
+                    url.put("short_version", request.scheme() + "s://" + request.host() + "/s/" + myUrl.getShortVersion());
                     url.put("link_use_count", Integer.toString(InfoServices.getInstance().getInfoListByUrl(myUrl.getShortVersion()).size()));
 
                     List<Info> urlInfo = InfoServices.getInstance().getInfoListByUrl(myUrl.getShortVersion());
@@ -149,7 +149,7 @@ public class RestApiController {
 
 
                 Map<String, String> mapUrl = new HashMap<>();
-                mapUrl.put("shortened-url", request.scheme() + "://" + request.host() + "/s/" + shortUrl);
+                mapUrl.put("shortened-url", request.scheme() + "s://" + request.host() + "/s/" + shortUrl);
                 mapUrl.put("createdAt", url.getCreatedAt().toString());
 
 
