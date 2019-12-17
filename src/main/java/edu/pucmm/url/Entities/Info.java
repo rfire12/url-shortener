@@ -19,10 +19,10 @@ import java.sql.Date;
 public class Info implements Serializable {
     @Id
     private String uid;
-    @XmlTransient
     private Date date;
 
     @ManyToOne
+    @XmlTransient
     private Url url;
 
     private String browser;
