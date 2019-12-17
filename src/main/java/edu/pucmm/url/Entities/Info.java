@@ -1,6 +1,7 @@
 package edu.pucmm.url.Entities;
 
 import edu.pucmm.url.Soap.XmlDateFormat;
+import edu.pucmm.url.Soap.XmlSqlDateFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -19,6 +20,7 @@ import java.sql.Date;
 public class Info implements Serializable {
     @Id
     private String uid;
+    @XmlJavaTypeAdapter(XmlSqlDateFormat.class)
     private Date date;
 
     @ManyToOne
