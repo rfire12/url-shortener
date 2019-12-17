@@ -34,7 +34,6 @@ public class Url implements Serializable {
     private User user;
 
     @OneToMany(mappedBy = "url", cascade = CascadeType.REMOVE)
-    @XmlTransient
     private List<Info> myInfos;
 
     private String imageBase;
