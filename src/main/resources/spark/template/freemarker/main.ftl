@@ -54,11 +54,12 @@
                                 ${url.originalVersion}
                             </td>
                             <td class="urlShort ${url.shortVersion}">
-                                <a href="${protocol}://${host}/s/${url.shortVersion}" target="_blank">${protocol}://${host}/s/${url.shortVersion}</a>
+                                <a href="${protocol}://${host}/s/${url.shortVersion}" target="_blank">${protocol}
+                                    ://${host}/s/${url.shortVersion}</a>
                             </td>
                             <#if user??>
                                 <td>
-                                     <a href="/info/${url.shortVersion}" class="btn btn-info">Info</a>
+                                    <a href="/info/${url.shortVersion}" class="btn btn-info">Info</a>
                                 </td>
                                 <#if user.admin == true>
                                     <td>
@@ -83,16 +84,18 @@
     $(function () {
         $('[id^="url-"]').each(function () {
             var myUrl = $(this).find(".urlShort").attr('class').split(' ')[1];
-            $.ajax({
-                url: "https://api.linkpreview.net/?key=5dea9a9314d2f06769d64b132210e2c34c21362c8ed88&q=https://${host}/s/" + myUrl,
-            }).done(function (data) {
-                var myElem = $("#url-" + myUrl).find(".preview").find(".card");
-                myElem.find("img").attr("src", data.image);
-                myElem = myElem.find(".card-body");
-                myElem.find(".card-title").text(data.title);
-                myElem.find("a").attr("href", data.url);
-                myElem.find("a").text("Go!");
-            });
+            setTimeout(function () {
+                $.ajax({
+                    url: "https://api.linkpreview.net/?key=5dea9a9314d2f06769d64b132210e2c34c21362c8ed88&q=https://${host}/s/" + myUrl,
+                }).done(function (data) {
+                    var myElem = $("#url-" + myUrl).find(".preview").find(".card");
+                    myElem.find("img").attr("src", data.image);
+                    myElem = myElem.find(".card-body");
+                    myElem.find(".card-title").text(data.title);
+                    myElem.find("a").attr("href", data.url);
+                    myElem.find("a").text("Go!");
+                });
+            }, 1000);
         });
     });
 </script>
