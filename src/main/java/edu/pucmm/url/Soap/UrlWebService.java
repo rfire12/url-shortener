@@ -29,7 +29,7 @@ public class UrlWebService {
         if (user.getPassword() == password)
             return user.getMyUrls();
         else
-            return null;
+            return new ArrayList<Url>();
     }
 
     @WebMethod
@@ -58,7 +58,7 @@ public class UrlWebService {
 
             return url;
         } else {
-            return null;
+            return new Url();
         }
     }
 }
