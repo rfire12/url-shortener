@@ -1,12 +1,20 @@
 package edu.pucmm.url.Entities;
 
+import edu.pucmm.url.Soap.XmlDateFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
+@XmlType
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Info implements Serializable {
     @Id
     private String uid;
